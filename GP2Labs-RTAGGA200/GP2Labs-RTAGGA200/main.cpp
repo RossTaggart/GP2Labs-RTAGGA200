@@ -6,6 +6,7 @@
 //Global variables go here
 //Pointer to our SDL Windows
 SDL_Window*window;
+bool running = true;
 
 //Constraints to control window creation
 const int WINDOW_WIDTH = 640;
@@ -40,6 +41,19 @@ int main(int argc, char* arg[]){
 		return-1;
 	}
 	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, false);
+
+	SDL_Event event;
+	while (running)
+	{
+		while (SDL_PollEvent(&event))
+		{
+			//Get event type
+			if (event.type == SDL_QUIT || event.type == SDL_WINDOWEVENT_CLOSE){
+				//set our boolean which controls the game loop to false
+				running = false;
+			}
+		}
+	}
 
 	CleanUp();
 }
