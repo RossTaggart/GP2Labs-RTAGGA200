@@ -79,7 +79,7 @@ void setViewport(int width, int height){
 		height = 1;
 	}
 
-	//calculate creen ration
+	//calculate screen ration
 	ratio = (GLfloat)width / (GLfloat)height;
 
 	//Setup viewport
