@@ -16,6 +16,22 @@ bool running = true;
 const int WINDOW_WIDTH = 640;
 const int WINDOW_HEIGHT = 480;
 
+//values of triangle 1
+float triangle1Vertex1PosX = 0.0f;
+float triangle1Vertex1PosY = 1.0f;
+float triangle1Vertex2PosX = 0.0f;
+float triangle1Vertex2PosY = -1.0f;
+float triangle1Vertex3PosX = 1.0f;
+float triangle1Vertex3PosY = -1.0f;
+
+//values of triangle 2
+float triangle2Vertex1PosX = -1.0f;
+float triangle2Vertex1PosY = 1.0f;
+float triangle2Vertex2PosX = -1.0f;
+float triangle2Vertex2PosY = -1.0f;
+float triangle2Vertex3PosX = -2.0f;
+float triangle2Vertex3PosY = -1.0f;
+
 //Global functions
 void InitWindow(int width, int height, bool fullscreen){
 
@@ -115,14 +131,14 @@ void render(){
 	//Begin drawing triangles
 	glBegin(GL_TRIANGLES);
 		glColor3f(1.0f, 0.0f, 0.0f); //Colour of triangle one
-		glVertex3f(0.0f, 1.0f, 0.0f); //Top
-		glVertex3f(0.0f, -1.0f, 0.0f); //Bottom Left
-		glVertex3f(1.0f, -1.0f, 0.0f); //Bottom Right
+		glVertex3f(triangle1Vertex1PosX, triangle1Vertex1PosY, 0.0f); //Top
+		glVertex3f(triangle1Vertex2PosX, triangle1Vertex2PosY, 0.0f); //Bottom Left
+		glVertex3f(triangle1Vertex3PosX, triangle1Vertex3PosY, 0.0f); //Bottom Right
 
 		glColor3f(0.0f, 1.0f, 0.0f); //Colour of triangle 2
-		glVertex3f(-1.0f, 1.0f, 0.0f);
-		glVertex3f(-1.0f, -1.0f, 0.0f);
-		glVertex3f(-2.0f, -1.0f, 0.0f);
+		glVertex3f(triangle2Vertex1PosX, triangle2Vertex1PosY, 0.0f);
+		glVertex3f(triangle2Vertex2PosX, triangle2Vertex2PosY, 0.0f);
+		glVertex3f(triangle2Vertex3PosX, triangle2Vertex3PosY, 0.0f);
 	glEnd();
 
 
