@@ -178,6 +178,53 @@ int main(int argc, char* arg[]){
 				//set our boolean which controls the game loop to false
 				running = false;
 			}
+			else if (event.type == SDL_KEYDOWN){
+				//checks for keypress
+				switch (event.key.keysym.sym){
+					//if left key pressed, x coords decreased by 0.1
+					case SDLK_LEFT:
+						triangle1Vertex1PosX -= 0.1f;
+						triangle1Vertex2PosX -= 0.1f;
+						triangle1Vertex3PosX -= 0.1f;
+
+						triangle2Vertex1PosX -= 0.1f;
+						triangle2Vertex2PosX -= 0.1f;
+						triangle2Vertex3PosX -= 0.1f;
+						break;
+					//if right key pressed, x coords increased by 0.1
+					case SDLK_RIGHT:
+						triangle1Vertex1PosX += 0.1f;
+						triangle1Vertex2PosX += 0.1f;
+						triangle1Vertex3PosX += 0.1f;
+
+						triangle2Vertex1PosX += 0.1f;
+						triangle2Vertex2PosX += 0.1f;
+						triangle2Vertex3PosX += 0.1f;
+						break;
+					//if up key pressed, y coords increased by 0.1
+					case SDLK_UP:
+						triangle1Vertex1PosY += 0.1f;
+						triangle1Vertex2PosY += 0.1f;
+						triangle1Vertex3PosY += 0.1f;
+
+						triangle2Vertex1PosY += 0.1f;
+						triangle2Vertex2PosY += 0.1f;
+						triangle2Vertex3PosY += 0.1f;
+						break;
+					//if down key pressed, y coords decreased by 0.1
+					case SDLK_DOWN:
+						triangle1Vertex1PosY -= 0.1f;
+						triangle1Vertex2PosY -= 0.1f;
+						triangle1Vertex3PosY -= 0.1f;
+
+						triangle2Vertex1PosY -= 0.1f;
+						triangle2Vertex2PosY -= 0.1f;
+						triangle2Vertex3PosY -= 0.1f;
+						break;
+					default:
+						break;
+				}
+			}
 		}
 
 		update();
