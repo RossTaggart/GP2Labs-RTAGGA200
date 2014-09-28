@@ -114,13 +114,12 @@ void render(){
 	glTranslatef(0.0f, 0.0f, -5.0f);
 	//Begin drawing triangles
 	glBegin(GL_TRIANGLES);
-		glColor3f(1.0f, 0.0f, 0.0f); //Color of vertice
+		glColor3f(1.0f, 0.0f, 0.0f); //Colour of triangle one
 		glVertex3f(0.0f, 1.0f, 0.0f); //Top
-		glColor3f(0.0f, 1.0f, 0.0f); //Color of vertice
 		glVertex3f(0.0f, -1.0f, 0.0f); //Bottom Left
-		glColor3f(0.0f, 0.0f, 1.0f);  //Color of vertice
 		glVertex3f(1.0f, -1.0f, 0.0f); //Bottom Right
 
+		glColor3f(0.0f, 1.0f, 0.0f); //Colour of triangle 2
 		glVertex3f(-1.0f, 1.0f, 0.0f);
 		glVertex3f(-1.0f, -1.0f, 0.0f);
 		glVertex3f(-2.0f, -1.0f, 0.0f);
