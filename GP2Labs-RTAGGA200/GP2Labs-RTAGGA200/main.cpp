@@ -119,7 +119,9 @@ void render(){
 		glVertex3f(0.0f, -1.0f, 0.0f); //Bottom Left
 		glVertex3f(1.0f, -1.0f, 0.0f); //Bottom Right
 
-		//glVertex3f()
+		glVertex3f(-1.0f, 1.0f, 0.0f);
+		glVertex3f(-1.0f, -1.0f, 0.0f);
+		glVertex3f(-2.0f, -1.0f, 0.0f);
 	glEnd();
 
 
