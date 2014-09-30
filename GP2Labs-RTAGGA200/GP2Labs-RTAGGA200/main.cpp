@@ -1,9 +1,12 @@
 //Header files
 #include <iostream>
 //header for SDL2 functionality
+
+#include<gl\glew.h>
 #include<SDL.h>
 #include<SDL_opengl.h>
 #include<gl\GLU.h>
+
 
 //Global variables go here
 //Pointer to our SDL Windows
@@ -81,6 +84,12 @@ void initOpenGL(){
 	//Turn on best perspective correction
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
+	GLenum err = glewInit();
+	if (GLEW_OK != err){
+		/*Problem: glewInit failed, something is seriously wrong bruv*/
+		std::cout << "Error: " << glewGetErrorString(err) << std::endl;
+	}
+
 }
 
 //Function to set/reset viewport
@@ -148,6 +157,11 @@ void render(){
 
 //Function to update game state
 void update(){
+
+}
+
+void initGeometry(){
+
 
 }
 
