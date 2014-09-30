@@ -75,7 +75,7 @@ Vertex triangleData[] = {
 		{ -0.5f, 0.5f, -0.5f,
 		1.0f, 0.0f, 1.0f, 1.0f }, //Top Left
 
-		{ -0.5f, 0.5f, 0.5f,
+		{ -0.5f, -0.5f, 0.5f,
 		1.0f, 0.0f, 1.0f, 1.0f }, //Bottom Left
 
 		{ 0.5f, 0.5f, 0.5f,
@@ -123,6 +123,11 @@ GLuint indices[] = {
 	4, 5, 6,
 	4, 7, 6
 };
+
+
+double cameraPosX = 0.0;
+double cameraPosY = 0.0;
+double cameraPosZ = 0.0;
 
 GLuint triangleVBO;
 GLuint triangleEBO;
@@ -248,7 +253,7 @@ void render(){
 	//Reset using the Identity Matrix
 	glLoadIdentity();
 	//Calculate view matrix
-	gluLookAt(0.0, 0.0, 0.0, 0.0, 0.0, -1.0f, 0.0, 1.0, 0.0);
+	gluLookAt(cameraPosX, cameraPosY, cameraPosZ, 0.0, 0.0, -1.0, 0.0, 1.0, 0.0);
 	//translate
 	glTranslatef(1.0f, 0.0f, -4.0f);
 	//Actually draw the triangle, giving the number of vertices provided
@@ -326,6 +331,17 @@ int main(int argc, char* arg[]){
 						break;
 					//if down key pressed
 					case SDLK_DOWN:
+						break;
+					case SDLK_i:
+						cameraPosY += 0.1;
+						break;
+					case SDLK_j:
+						cameraPosX -= 0.1;
+						break;
+					case SDLK_k:
+						cameraPosY -= 0.1;
+					case SDLK_l:
+						cameraPosX += 0.1;
 						break;
 					default:
 						break;
