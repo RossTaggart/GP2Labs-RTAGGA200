@@ -11,7 +11,6 @@ SDL_Window*window;
 SDL_GLContext glcontext;
 
 bool running = true;
-63
 //Constraints to control window creation
 const int WINDOW_WIDTH = 640;
 const int WINDOW_HEIGHT = 480;
