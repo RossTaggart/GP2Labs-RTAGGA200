@@ -129,6 +129,10 @@ double cameraPosX = 0.0;
 double cameraPosY = 0.0;
 double cameraPosZ = 0.0;
 
+float cube1PosX = 1.0f;
+float cube1PosY = 0.0f;
+float cube1PosZ = -4.0f;
+
 GLuint triangleVBO;
 GLuint triangleEBO;
 
@@ -255,9 +259,10 @@ void render(){
 	//Calculate view matrix
 	gluLookAt(cameraPosX, cameraPosY, cameraPosZ, 0.0, 0.0, -1.0, 0.0, 1.0, 0.0);
 	//translate
-	glTranslatef(1.0f, 0.0f, -4.0f);
+	glTranslatef(cube1PosX, cube1PosY, cube1PosZ);
 	//Actually draw the triangle, giving the number of vertices provided
 	glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, 0);
+
 
 	glTranslatef(-2.0f, 0.0f, 0.0f);
 	glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, 0);
@@ -322,15 +327,19 @@ int main(int argc, char* arg[]){
 				switch (event.key.keysym.sym){
 					//if left key pressed
 					case SDLK_LEFT:
+						cube1PosX -= 0.1f;
 						break;
 					//if right key pressed
 					case SDLK_RIGHT:
+						cube1PosX += 0.1f;
 						break;
 					//if up key pressed
 					case SDLK_UP:
+						cube1PosY += 0.1f;
 						break;
 					//if down key pressed
 					case SDLK_DOWN:
+						cube1PosY -= 0.1f;
 						break;
 					case SDLK_i:
 						cameraPosY += 0.1;
