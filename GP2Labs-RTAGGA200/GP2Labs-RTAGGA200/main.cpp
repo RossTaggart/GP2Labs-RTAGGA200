@@ -1,12 +1,12 @@
 //Header files
 #include <iostream>
+#include "Vertex.h"
 //header for SDL2 functionality
 
 #include<gl\glew.h>
 #include<SDL.h>
 #include<SDL_opengl.h>
 #include<gl\GLU.h>
-
 
 //Global variables go here
 //Pointer to our SDL Windows
@@ -34,9 +34,14 @@ float triangle2Vertex2PosY = -1.0f;
 float triangle2Vertex3PosX = -2.0f;
 float triangle2Vertex3PosY = -1.0f;
 
-float triangleData[] = { 0.0f, 1.0f, 0.0f, //Top
-						-1.0f, -1.0f, 0.0f, //Bottom Left
-						 1.0f, -1.0f, 0.0f }; //Bottom Right
+Vertex triangleData[] = { { 0.0f, 1.0f, 0.0f, //x,y,z
+			1.0f, 0.0f, 0.0f, 1.0f }, //r,g,b,a
+
+			{-1.0f, -1.0f, 0.0f, //x,y,z
+			0.0f, 1.0f, 0.0f, 1.0f }, //r,g,b,a
+
+			{ 1.0f, -1.0f, 0.0f, //x,y,z
+			0.0f, 0.0f, 1.0f, 1.0f }}; //r,b,g,a
 
 GLuint triangleVBO;
 
@@ -142,11 +147,15 @@ void render(){
 
 	//Establish its 3 coordinates per vertex with zero stride(space between elements)
 	//In array and contain floating point numbers
-	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), NULL);
+	//The last parameter basically says that the colours start 3 floats into
+	//each element of the array
+	glColorPointer(4, GL_FLOAT, sizeof(Vertex), (void**)(3 * sizeof(float)));
 
-	//Establish array containing vertices(not normals, colours etc)
+	//Establish array containing vertices and colours
 	glEnableClientState(GL_VERTEX_ARRAY);
-	
+	glEnableClientState(GL_COLOR_ARRAY);
+
 	//Begin drawing triangles
 
 	//Switch to ModelView
