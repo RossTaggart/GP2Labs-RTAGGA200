@@ -53,6 +53,25 @@ Vertex triangleData[] = {
 
 		{ 0.5f, -0.5f, 0.5f,
 		0.0f, 1.0f, 1.0f, 1.0f }, //Bottom Right
+
+	//Back
+		{ -0.5f, 0.5f, -0.5f,
+		1.0f, 0.0f, 1.0f, 1.0f },//Top Left
+
+		{ -0.5f, -0.5f, -0.5f,
+		1.0f, 1.0f, 0.0f, 1.0f },//Bottom Left
+
+		{ 0.5f, -0.5f, -0.5f,
+		0.0f, 1.0f, 1.0f, 1.0f },//Bottom Right
+
+		{ 0.5f, 0.5f, -0.5f,
+		1.0f, 0.0f, 1.0f, 1.0f },//Top Right
+
+		{ -0.5f, 0.5f, -0.5f,
+		1.0f, 0.0f, 1.0f, 1.0f },//Top Left
+
+		{ 0.5f, -0.5f, -0.5f,
+		0.0f, 1.0f, 1.0f, 1.0f },//Bottom Right
 };
 
 GLuint triangleVBO;
@@ -177,18 +196,18 @@ void render(){
 	//Calculate view matrix
 	gluLookAt(0.0, 0.0, 0.0, 0.0, 0.0, -1.0f, 0.0, 1.0, 0.0);
 	//translate
-	glTranslatef(1.0f, 0.0f, -6.0f);
+	glTranslatef(0.0f, 0.0f, -4.0f);
 	//Actually draw the triangle, giving the number of vertices provided
 	glDrawArrays(GL_TRIANGLES, 0, sizeof(triangleData) / (3 * sizeof(float)));
 
-	glLoadIdentity();
+	//glLoadIdentity();
 
 	//Calculate view matrix
-	gluLookAt(0.0, 0.0, 0.0, 0.0, 0.0, -1.0f, 0.0, 1.0, 0.0);
+	//gluLookAt(0.0, 0.0, 0.0, 0.0, 0.0, -1.0f, 0.0, 1.0, 0.0);
 
-	glTranslatef(-1.0f, 0.0f, -6.0f);
+	//glTranslatef(-1.0f, 0.0f, -6.0f);
 	
-	glDrawArrays(GL_TRIANGLES, 0, sizeof(triangleData) / (3 * sizeof(float)));
+	//glDrawArrays(GL_TRIANGLES, 0, sizeof(triangleData) / (3 * sizeof(float)));
 	
 	//require to swap the back and front buffer
 	SDL_GL_SwapWindow(window);
