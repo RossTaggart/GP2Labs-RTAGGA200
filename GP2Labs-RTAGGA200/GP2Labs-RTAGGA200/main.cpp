@@ -34,6 +34,12 @@ float triangle2Vertex2PosY = -1.0f;
 float triangle2Vertex3PosX = -2.0f;
 float triangle2Vertex3PosY = -1.0f;
 
+float triangleData[] = { 0.0f, 1.0f, 0.0f, //Top
+						-1.0f, -1.0f, 0.0f, //Bottom Left
+						 1.0f, -1.0f, 0.0f }; //Bottom Right
+
+GLuint triangleVBO;
+
 //Global functions
 void InitWindow(int width, int height, bool fullscreen){
 
@@ -49,6 +55,7 @@ void InitWindow(int width, int height, bool fullscreen){
 
 //Used to cleanup once we exit
 void CleanUp(){
+	glDeleteBuffers(1, &triangleVBO);
 	SDL_GL_DeleteContext(glcontext);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
@@ -86,7 +93,7 @@ void initOpenGL(){
 
 	GLenum err = glewInit();
 	if (GLEW_OK != err){
-		/*Problem: glewInit failed, something is seriously wrong bruv*/
+		/*Problem: glewInit failed, something is seriously wrong*/
 		std::cout << "Error: " << glewGetErrorString(err) << std::endl;
 	}
 
@@ -130,6 +137,16 @@ void render(){
 	//clear the colour and depth buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	//Make the new VBO active. Repeat here as a sanity check (may have changed since init
+	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
+
+	//Establish its 3 coordinates per vertex with zero stride(space between elements)
+	//In array and contain floating point numbers
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+	//Establish array containing vertices(not normals, colours etc)
+	glEnableClientState(GL_VERTEX_ARRAY);
+
 	//Switch to ModelView
 	glMatrixMode(GL_MODELVIEW);
 	//Reset using the Identity Matrix
@@ -137,19 +154,15 @@ void render(){
 	//Translate to -0.5f on Z-Axis
 	glTranslatef(0.0f, 0.0f, -5.0f);
 	//Begin drawing triangles
-	glBegin(GL_TRIANGLES);
-		glColor3f(1.0f, 0.0f, 0.0f); //Colour of triangle one
-		glVertex3f(triangle1Vertex1PosX, triangle1Vertex1PosY, 0.0f); //Top
-		glVertex3f(triangle1Vertex2PosX, triangle1Vertex2PosY, 0.0f); //Bottom Left
-		glVertex3f(triangle1Vertex3PosX, triangle1Vertex3PosY, 0.0f); //Bottom Right
 
-		glColor3f(0.0f, 1.0f, 0.0f); //Colour of triangle 2
-		glVertex3f(triangle2Vertex1PosX, triangle2Vertex1PosY, 0.0f);
-		glVertex3f(triangle2Vertex2PosX, triangle2Vertex2PosY, 0.0f);
-		glVertex3f(triangle2Vertex3PosX, triangle2Vertex3PosY, 0.0f);
-	glEnd();
-
-
+	//Switch to ModelView
+	glMatrixMode(GL_MODELVIEW);
+	//Reset using the Identity Matrix
+	glLoadIdentity();
+	//translate
+	glTranslatef(0.0f, 0.0f, -6.0f);
+	//Actually draw the triangle, giving the number of vertices provided
+	glDrawArrays(GL_TRIANGLES, 0, sizeof(triangleData) / (3 * sizeof(float)));
 	//require to swap the back and front buffer
 	SDL_GL_SwapWindow(window);
 
@@ -161,7 +174,12 @@ void update(){
 }
 
 void initGeometry(){
-
+	//Create buffer
+	glGenBuffers(1, &triangleVBO);
+	//Make the new VBO active
+	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
+	//Copy Vertext Data to VBO
+	glBufferData(GL_ARRAY_BUFFER, sizeof(triangleData), triangleData, GL_STATIC_DRAW);
 
 }
 
@@ -178,6 +196,8 @@ int main(int argc, char* arg[]){
 
 	//Call our InitOpenGL Function
 	initOpenGL();
+	//Call our initGeometry function
+	initGeometry();
 	//set our viewport
 	setViewport(WINDOW_WIDTH, WINDOW_HEIGHT);
 
