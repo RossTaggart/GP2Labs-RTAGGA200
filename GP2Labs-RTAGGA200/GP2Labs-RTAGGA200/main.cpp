@@ -32,12 +32,6 @@ Vertex triangleData[] = {
 		{ 0.5f, 0.5f, 0.5f,
 		1.0f, 0.0f, 1.0f, 1.0f }, //Top Right
 
-		//{ -0.5f, 0.5f, 0.5f,
-		//1.0f, 0.0f, 1.0f, 1.0f }, //Top Left
-
-		//{ 0.5f, -0.5f, 0.5f,
-		//0.0f, 1.0f, 1.0f, 1.0f }, //Bottom Right
-
 	//Back
 		{ -0.5f, 0.5f, -0.5f,
 		1.0f, 0.0f, 1.0f, 1.0f }, //Top Left
@@ -50,12 +44,6 @@ Vertex triangleData[] = {
 
 		{ 0.5f, 0.5f, -0.5f,
 		1.0f, 0.0f, 1.0f, 1.0f }, //Top Right
-
-		//{ -0.5f, 0.5f, -0.5f,
-		//1.0f, 0.0f, 1.0f, 1.0f }, //Top Left
-
-		//{ 0.5f, -0.5f, -0.5f,
-		//0.0f, 1.0f, 1.0f, 1.0f }, //Bottom Right
 		
 	//Right
 		{ 0.5f, 0.5f, 0.5f,
@@ -70,12 +58,6 @@ Vertex triangleData[] = {
 		{ 0.5f, 0.5f, -0.5f,
 		1.0f, 0.0f, 1.0f, 1.0f }, //Top Right
 
-		{ 0.5f, 0.5f, 0.5f,
-		1.0f, 0.0f, 1.0f, 0.0f }, //Top Left
-
-		{ 0.5f, -0.5f, -0.5f,
-		0.0f, 1.0f, 1.0f, 1.0f }, //Bottom Right
-
 	//Left
 		{-0.5f, 0.5f, -0.5f,
 		1.0f, 0.0f, 1.0f, 0.0f}, //Top left
@@ -88,12 +70,6 @@ Vertex triangleData[] = {
 
 		{ -0.5f, 0.5f, 0.5f,
 		1.0f, 0.0f, 1.0f, 1.0f }, //Top Right
-
-		{ -0.5f, 0.5f, -0.5f,
-		1.0f, 0.0f, 1.0f, 0.0f }, //Top left
-
-		{ -0.5f, -0.5f, 0.5f,
-		1.0f, 1.0f, 0.0f, 1.0f }, //Bottom Right
 
 	//Top
 		{ -0.5f, 0.5f, -0.5f,
@@ -108,12 +84,6 @@ Vertex triangleData[] = {
 		{ 0.5f, 0.5f, -0.5f,
 		1.0f, 0.0f, 1.0f, 1.0f }, //Top Right
 
-		{ -0.5f, 0.5f, -0.5f,
-		1.0f, 0.0f, 1.0f, 1.0f }, //Top Left
-
-		{ 0.5f, 0.5f, 0.5f,
-		1.0f, 0.0f, 1.0f, 1.0f }, //Bottom Right
-
 	//Bottom
 		{ -0.5f, -0.5f, -0.5f,
 		1.0f, 1.0f, 0.0f, 1.0f }, //Top Left
@@ -126,12 +96,6 @@ Vertex triangleData[] = {
 
 		{ 0.5f, -0.5f, -0.5f,
 		0.0f, 1.0f, 1.0f, 1.0f }, //Top Right
-
-		{ -0.5f, -0.5f, -0.5f,
-		1.0f, 1.0f, 0.0f, 1.0f }, //Top Left
-
-		{ 0.5f, -0.5f, 0.5f,
-		0.0f, 1.0f, 1.0f, 1.0f }, //Bottom Right
 };
 
 GLuint indices[] = {
