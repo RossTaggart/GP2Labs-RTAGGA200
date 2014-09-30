@@ -34,14 +34,26 @@ float triangle2Vertex2PosY = -1.0f;
 float triangle2Vertex3PosX = -2.0f;
 float triangle2Vertex3PosY = -1.0f;
 
-Vertex triangleData[] = { { 0.0f, 1.0f, 0.0f, //x,y,z
-			1.0f, 0.0f, 0.0f, 1.0f }, //r,g,b,a
+Vertex triangleData[] = {
+	//Front
+		{ -0.5f, 0.5f, 0.5f,
+		1.0f, 0.0f, 1.0f, 1.0f }, //Top Left
 
-			{-1.0f, -1.0f, 0.0f, //x,y,z
-			0.0f, 1.0f, 0.0f, 1.0f }, //r,g,b,a
+		{ -0.5f, -0.5f, 0.5f,
+		1.0f, 1.0f, 0.0f, 1.0f }, //Bottom Left
 
-			{ 1.0f, -1.0f, 0.0f, //x,y,z
-			0.0f, 0.0f, 1.0f, 1.0f }}; //r,b,g,a
+		{ 0.5f, -0.5f, 0.5f,
+		0.0f, 1.0f, 1.0f, 1.0f }, //Bottom Right
+
+		{ 0.5f, 0.5f, 0.5f,
+		1.0f, 0.0f, 1.0f, 1.0f }, //Top Right
+
+		{ -0.5f, 0.5f, 0.5f,
+		1.0f, 0.0f, 1.0f, 1.0f }, //Top Left
+
+		{ 0.5f, -0.5f, 0.5f,
+		0.0f, 1.0f, 1.0f, 1.0f }, //Bottom Right
+};
 
 GLuint triangleVBO;
 
