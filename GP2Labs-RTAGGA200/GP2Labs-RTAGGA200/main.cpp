@@ -250,8 +250,11 @@ void render(){
 	//Calculate view matrix
 	gluLookAt(0.0, 0.0, 0.0, 0.0, 0.0, -1.0f, 0.0, 1.0, 0.0);
 	//translate
-	glTranslatef(0.0f, 0.0f, -4.0f);
+	glTranslatef(1.0f, 0.0f, -4.0f);
 	//Actually draw the triangle, giving the number of vertices provided
+	glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, 0);
+
+	glTranslatef(-2.0f, 0.0f, 0.0f);
 	glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, 0);
 	
 	//require to swap the back and front buffer
