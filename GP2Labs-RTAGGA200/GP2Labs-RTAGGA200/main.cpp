@@ -40,22 +40,98 @@ Vertex triangleData[] = {
 
 	//Back
 		{ -0.5f, 0.5f, -0.5f,
-		1.0f, 0.0f, 1.0f, 1.0f },//Top Left
+		1.0f, 0.0f, 1.0f, 1.0f }, //Top Left
 
 		{ -0.5f, -0.5f, -0.5f,
-		1.0f, 1.0f, 0.0f, 1.0f },//Bottom Left
+		1.0f, 1.0f, 0.0f, 1.0f }, //Bottom Left
 
 		{ 0.5f, -0.5f, -0.5f,
-		0.0f, 1.0f, 1.0f, 1.0f },//Bottom Right
+		0.0f, 1.0f, 1.0f, 1.0f }, //Bottom Right
 
 		{ 0.5f, 0.5f, -0.5f,
-		1.0f, 0.0f, 1.0f, 1.0f },//Top Right
+		1.0f, 0.0f, 1.0f, 1.0f }, //Top Right
 
 		{ -0.5f, 0.5f, -0.5f,
-		1.0f, 0.0f, 1.0f, 1.0f },//Top Left
+		1.0f, 0.0f, 1.0f, 1.0f }, //Top Left
 
 		{ 0.5f, -0.5f, -0.5f,
-		0.0f, 1.0f, 1.0f, 1.0f },//Bottom Right
+		0.0f, 1.0f, 1.0f, 1.0f }, //Bottom Right
+		
+	//Right
+		{ 0.5f, 0.5f, 0.5f,
+		1.0f, 0.0f, 1.0f, 0.0f }, //Top Left
+
+		{ 0.5f, -0.5f, 0.5f,
+		0.0f, 1.0f, 1.0f, 1.0f }, //Bottom Left
+
+		{ 0.5f, -0.5f, -0.5f,
+		0.0f, 1.0f, 1.0f, 1.0f }, //Bottom Right
+
+		{ 0.5f, 0.5f, -0.5f,
+		1.0f, 0.0f, 1.0f, 1.0f }, //Top Right
+
+		{ 0.5f, 0.5f, 0.5f,
+		1.0f, 0.0f, 1.0f, 0.0f }, //Top Left
+
+		{ 0.5f, -0.5f, -0.5f,
+		0.0f, 1.0f, 1.0f, 1.0f }, //Bottom Right
+
+	//Left
+		{-0.5f, 0.5f, -0.5f,
+		1.0f, 0.0f, 1.0f, 0.0f}, //Top left
+
+		{-0.5f, -0.5f, -0.5f,
+		1.0f, 1.0f, 0.0f, 1.0f}, //Bottom Left
+
+		{ -0.5f, -0.5f, 0.5f,
+		1.0f, 1.0f, 0.0f, 1.0f }, //Bottom Right
+
+		{ -0.5f, 0.5f, 0.5f,
+		1.0f, 0.0f, 1.0f, 1.0f }, //Top Right
+
+		{ -0.5f, 0.5f, -0.5f,
+		1.0f, 0.0f, 1.0f, 0.0f }, //Top left
+
+		{ -0.5f, -0.5f, 0.5f,
+		1.0f, 1.0f, 0.0f, 1.0f }, //Bottom Right
+
+	//Top
+		{ -0.5f, 0.5f, -0.5f,
+		1.0f, 0.0f, 1.0f, 1.0f }, //Top Left
+
+		{ -0.5f, 0.5f, 0.5f,
+		1.0f, 0.0f, 1.0f, 1.0f }, //Bottom Left
+
+		{ 0.5f, 0.5f, 0.5f,
+		1.0f, 0.0f, 1.0f, 1.0f }, //Bottom Right
+
+		{ 0.5f, 0.5f, -0.5f,
+		1.0f, 0.0f, 1.0f, 1.0f }, //Top Right
+
+		{ -0.5f, 0.5f, -0.5f,
+		1.0f, 0.0f, 1.0f, 1.0f }, //Top Left
+
+		{ 0.5f, 0.5f, 0.5f,
+		1.0f, 0.0f, 1.0f, 1.0f }, //Bottom Right
+
+	//Bottom
+		{ -0.5f, -0.5f, -0.5f,
+		1.0f, 1.0f, 0.0f, 1.0f }, //Top Left
+
+		{ -0.5f, -0.5f, -0.5f,
+		1.0f, 1.0f, 0.0f, 1.0f }, //Bottom Left
+
+		{ 0.5f, -0.5f, 0.5f,
+		0.0f, 1.0f, 1.0f, 1.0f }, //Bottom Right
+
+		{ 0.5f, -0.5f, -0.5f,
+		0.0f, 1.0f, 1.0f, 1.0f }, //Top Right
+
+		{ -0.5f, -0.5f, -0.5f,
+		1.0f, 1.0f, 0.0f, 1.0f }, //Top Left
+
+		{ 0.5f, -0.5f, 0.5f,
+		0.0f, 1.0f, 1.0f, 1.0f }, //Bottom Right
 };
 
 GLuint triangleVBO;
@@ -235,16 +311,16 @@ int main(int argc, char* arg[]){
 			else if (event.type == SDL_KEYDOWN){
 				//checks for keypress
 				switch (event.key.keysym.sym){
-					//if left key pressed, x coords decreased by 0.1
+					//if left key pressed
 					case SDLK_LEFT:
 						break;
-					//if right key pressed, x coords increased by 0.1
+					//if right key pressed
 					case SDLK_RIGHT:
 						break;
-					//if up key pressed, y coords increased by 0.1
+					//if up key pressed
 					case SDLK_UP:
 						break;
-					//if down key pressed, y coords decreased by 0.1
+					//if down key pressed
 					case SDLK_DOWN:
 						break;
 					default:
