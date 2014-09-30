@@ -18,22 +18,6 @@ bool running = true;
 const int WINDOW_WIDTH = 640;
 const int WINDOW_HEIGHT = 480;
 
-//values of triangle 1
-float triangle1Vertex1PosX = 0.0f;
-float triangle1Vertex1PosY = 1.0f;
-float triangle1Vertex2PosX = 0.0f;
-float triangle1Vertex2PosY = -1.0f;
-float triangle1Vertex3PosX = 1.0f;
-float triangle1Vertex3PosY = -1.0f;
-
-//values of triangle 2
-float triangle2Vertex1PosX = -1.0f;
-float triangle2Vertex1PosY = 1.0f;
-float triangle2Vertex2PosX = -1.0f;
-float triangle2Vertex2PosY = -1.0f;
-float triangle2Vertex3PosX = -2.0f;
-float triangle2Vertex3PosY = -1.0f;
-
 Vertex triangleData[] = {
 	//Front
 		{ -0.5f, 0.5f, 0.5f,
@@ -262,43 +246,15 @@ int main(int argc, char* arg[]){
 				switch (event.key.keysym.sym){
 					//if left key pressed, x coords decreased by 0.1
 					case SDLK_LEFT:
-						triangle1Vertex1PosX -= 0.1f;
-						triangle1Vertex2PosX -= 0.1f;
-						triangle1Vertex3PosX -= 0.1f;
-
-						triangle2Vertex1PosX -= 0.1f;
-						triangle2Vertex2PosX -= 0.1f;
-						triangle2Vertex3PosX -= 0.1f;
 						break;
 					//if right key pressed, x coords increased by 0.1
 					case SDLK_RIGHT:
-						triangle1Vertex1PosX += 0.1f;
-						triangle1Vertex2PosX += 0.1f;
-						triangle1Vertex3PosX += 0.1f;
-
-						triangle2Vertex1PosX += 0.1f;
-						triangle2Vertex2PosX += 0.1f;
-						triangle2Vertex3PosX += 0.1f;
 						break;
 					//if up key pressed, y coords increased by 0.1
 					case SDLK_UP:
-						triangle1Vertex1PosY += 0.1f;
-						triangle1Vertex2PosY += 0.1f;
-						triangle1Vertex3PosY += 0.1f;
-
-						triangle2Vertex1PosY += 0.1f;
-						triangle2Vertex2PosY += 0.1f;
-						triangle2Vertex3PosY += 0.1f;
 						break;
 					//if down key pressed, y coords decreased by 0.1
 					case SDLK_DOWN:
-						triangle1Vertex1PosY -= 0.1f;
-						triangle1Vertex2PosY -= 0.1f;
-						triangle1Vertex3PosY -= 0.1f;
-
-						triangle2Vertex1PosY -= 0.1f;
-						triangle2Vertex2PosY -= 0.1f;
-						triangle2Vertex3PosY -= 0.1f;
 						break;
 					default:
 						break;
