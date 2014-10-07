@@ -2,6 +2,13 @@
 #include <iostream>
 #include "Vertex.h"
 #include "Shader.h"
+//Maths headers
+#include <glm/glm.hpp>
+using glm::mat4;
+using glm::vec3;
+
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 //header for SDL2 functionality
 
 #include<gl\glew.h>
@@ -147,6 +154,11 @@ GLuint triangleEBO;
 
 GLuint shaderProgram = 0;
 
+//matrices
+mat4 viewMatrix;
+mat4 projMatrix;
+mat4 worldMatrix;
+
 //Global functions
 void InitWindow(int width, int height, bool fullscreen){
 
@@ -246,6 +258,11 @@ void render(){
 	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
 	
 	glUseProgram(shaderProgram);
+
+	GLint MVPLocation = glGetUniformLocation(shaderProgram, "MVP");
+	mat4 MVP = projMatrix*viewMatrix*worldMatrix;
+	glUniformMatrix4fv(MVPLocation, 1, GL_FALSE, glm::value_ptr(MVP));
+
 	//Tell the shader that 0 is the position element
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
@@ -264,6 +281,9 @@ void render(){
 //Function to update game state
 void update(){
 
+	projMatrix = glm::perspective(45.0f, (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 100.f);
+	viewMatrix = glm::lookAt(vec3(0.0f, 0.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
+	worldMatrix = glm::translate(mat4(1.0f), vec3(0.0f, 0.0f, 0.0f));
 }
 
 void initGeometry(){
