@@ -11,7 +11,7 @@ GLuint loadShaderFromMemory(const char * pMem, SHADER_TYPE shaderType)
 }
 
 //Load Shader from file
-GLuint loadShaderFromFile(const std::string& filename, SHADER_TYPE shaderType);
+GLuint loadShaderFromFile(const std::string& filename, SHADER_TYPE shaderType)
 {
 
 	std::string fileContents;
@@ -45,13 +45,13 @@ GLuint loadShaderFromFile(const std::string& filename, SHADER_TYPE shaderType);
 	return 0;
 }
 
-bool checkForCompilerErrors(Gluint shaderProgram)
+bool checkForCompilerErrors(GLuint shaderProgram)
 {
-	Glint isCompiled = 0;
+	GLint isCompiled = 0;
 	glGetShaderiv(shaderProgram, GL_COMPILE_STATUS, &isCompiled);
 	if (isCompiled == GL_FALSE)
 	{
-		Glint maxLength = 0;
+		GLint maxLength = 0;
 		glGetShaderiv(shaderProgram, GL_INFO_LOG_LENGTH, &maxLength);
 
 		//The maxLength includes the NULL character
@@ -66,7 +66,7 @@ bool checkForCompilerErrors(Gluint shaderProgram)
 		return true;
 	}
 	
-	if (checkForCompilerErrors(program))
+	if (checkForCompilerErrors(shaderProgram))
 	{
 
 		return 0;
