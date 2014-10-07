@@ -243,6 +243,12 @@ void render(){
 
 	//Make the new VBO active. Repeat here as a sanity check (may have changed since init
 	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
+	
+	glUseProgram(shaderProgram);
+	//Tell the shader that 0 is the position element
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+
 	//Bind EBO
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangleEBO);
 
