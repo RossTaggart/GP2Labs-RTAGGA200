@@ -257,15 +257,12 @@ void render(){
 	//Reset using the Identity Matrix
 	glLoadIdentity();
 	//Calculate view matrix
-	gluLookAt(cameraPosX, cameraPosY, cameraPosZ, 0.0, 0.0, -1.0, 0.0, 1.0, 0.0);
+	gluLookAt(0.0, 0.0, 0.0, 0.0, 0.0, -1.0, 0.0, 1.0, 0.0);
 	//translate
-	glTranslatef(cube1PosX, cube1PosY, cube1PosZ);
+	glTranslatef(0.0f, 0.0f, -4.0f);
 	//Actually draw the triangle, giving the number of vertices provided
 	glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, 0);
 
-
-	glTranslatef(-2.0f, 0.0f, 0.0f);
-	glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, 0);
 	
 	//require to swap the back and front buffer
 	SDL_GL_SwapWindow(window);
@@ -322,40 +319,8 @@ int main(int argc, char* arg[]){
 				//set our boolean which controls the game loop to false
 				running = false;
 			}
-			else if (event.type == SDL_KEYDOWN){
-				//checks for keypress
-				switch (event.key.keysym.sym){
-					//if left key pressed
-					case SDLK_LEFT:
-						cube1PosX -= 0.1f;
-						break;
-					//if right key pressed
-					case SDLK_RIGHT:
-						cube1PosX += 0.1f;
-						break;
-					//if up key pressed
-					case SDLK_UP:
-						cube1PosY += 0.1f;
-						break;
-					//if down key pressed
-					case SDLK_DOWN:
-						cube1PosY -= 0.1f;
-						break;
-					case SDLK_i:
-						cameraPosY += 0.1;
-						break;
-					case SDLK_j:
-						cameraPosX -= 0.1;
-						break;
-					case SDLK_k:
-						cameraPosY -= 0.1;
-					case SDLK_l:
-						cameraPosX += 0.1;
-						break;
-					default:
-						break;
-				}
-			}
+		
+			
 		}
 
 		update();
