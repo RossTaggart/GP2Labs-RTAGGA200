@@ -292,6 +292,8 @@ void createShader(){
 	glLinkProgram(shaderProgram);
 	checkForLinkErrors(shaderProgram);
 
+	glBindAttribLocation(shaderProgram, 0, "vertexPosition");
+
 	//now we can delete the VS & FS Programs
 	glDeleteShader(vertexShaderProgram);
 	glDeleteShader(fragmentShaderProgram);

@@ -74,11 +74,13 @@ bool checkForCompilerErrors(GLuint shaderProgram)
 
 }
 
-bool checkForLinkErrors(GLuint program){
+bool checkForLinkErrors(GLuint program)
+{
 
 	GLint isLinked = 0;
 	glGetProgramiv(program, GL_LINK_STATUS, &isLinked);
-	if (isLinked == GL_FALSE){
+	if (isLinked == GL_FALSE)
+	{
 
 		GLint maxLength = 0;
 		glGetProgramiv(program, GL_LINK_STATUS, &isLinked);
