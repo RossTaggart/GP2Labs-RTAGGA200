@@ -7,6 +7,10 @@ GLuint loadShaderFromMemory(const char * pMem, SHADER_TYPE shaderType)
 	GLuint program = glCreateShader(shaderType);
 	glShaderSource(program, 1, &pMem, NULL);
 	glCompileShader(program);
+	if (checkForCompilerErrors(program))
+	{
+		return 0;
+	}
 	return program;
 }
 
@@ -65,13 +69,31 @@ bool checkForCompilerErrors(GLuint shaderProgram)
 		glDeleteShader(shaderProgram);
 		return true;
 	}
-	
-	if (checkForCompilerErrors(shaderProgram))
-	{
-
-		return 0;
-	}
 
 	return false;
 
+}
+
+bool checkForLinkErrors(GLuint program){
+
+	GLint isLinked = 0;
+	glGetProgramiv(program, GL_LINK_STATUS, &isLinked);
+	if (isLinked == GL_FALSE){
+
+		GLint maxLength = 0;
+		glGetProgramiv(program, GL_LINK_STATUS, &isLinked);
+
+		//The maxLength includes the NULL character
+		std::string infoLog;
+		glGetShaderInfoLog(program, maxLength, &maxLength, &infoLog[0]);
+
+		std::cout << "Shader not linked" << infoLog << std::endl;
+
+		//We don't need the shader anymore
+		glDeleteProgram(program);
+		return true;
+
+	}
+
+	return false;
 }

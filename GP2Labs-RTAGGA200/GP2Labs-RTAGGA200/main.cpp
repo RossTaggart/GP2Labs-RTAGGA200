@@ -144,6 +144,8 @@ float cube1PosZ = -4.0f;
 GLuint triangleVBO;
 GLuint triangleEBO;
 
+GLuint shaderProgram = 0;
+
 //Global functions
 void InitWindow(int width, int height, bool fullscreen){
 
@@ -159,6 +161,7 @@ void InitWindow(int width, int height, bool fullscreen){
 
 //Used to cleanup once we exit
 void CleanUp(){
+	glDeleteProgram(shaderProgram);
 	glDeleteBuffers(1, &triangleEBO);
 	glDeleteBuffers(1, &triangleVBO);
 	SDL_GL_DeleteContext(glcontext);
@@ -273,6 +276,27 @@ void initGeometry(){
 
 }
 
+void createShader(){
+
+	GLuint vertexShaderProgram = 0;
+	std::string vsPath = ASSET_PATH + SHADER_PATH + "/simpleVS.glsl";
+	vertexShaderProgram = loadShaderFromFile(vsPath, VERTEX_SHADER);
+
+	GLuint fragmentShaderProgram = 0;
+	std::string fsPath = ASSET_PATH + SHADER_PATH + "/simpleFS.glsl";
+	fragmentShaderProgram = loadShaderFromFile(fsPath, FRAGMENT_SHADER);
+
+	shaderProgram = glCreateProgram();
+	glAttachShader(shaderProgram, vertexShaderProgram);
+	glAttachShader(shaderProgram, fragmentShaderProgram);
+	glLinkProgram(shaderProgram);
+	checkForLinkErrors(shaderProgram);
+
+	//now we can delete the VS & FS Programs
+	glDeleteShader(vertexShaderProgram);
+	glDeleteShader(fragmentShaderProgram);
+}
+
 //Main Method - Entry Point
 int main(int argc, char* arg[]){
 	//init everything - SDL, if it is nonzero we have a problem
@@ -292,6 +316,7 @@ int main(int argc, char* arg[]){
 	setViewport(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	SDL_Event event;
+	createShader();
 	while (running)
 	{
 		while (SDL_PollEvent(&event))
