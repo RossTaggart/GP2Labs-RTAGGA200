@@ -161,6 +161,11 @@ void CleanUp(){
 //Function to initialise OpenGL
 void initOpenGL(){
 
+	//Ask for version 3.2 of OpenGL
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
 	//Create OpenGL Context
 	glcontext = SDL_GL_CreateContext(window);
 	//Something went wrong in creating the context, if it is still NULL
@@ -188,6 +193,8 @@ void initOpenGL(){
 	//Turn on best perspective correction
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
+	glewExperimental = GL_TRUE;
+
 	GLenum err = glewInit();
 	if (GLEW_OK != err){
 		/*Problem: glewInit failed, something is seriously wrong*/
@@ -213,18 +220,7 @@ void setViewport(int width, int height){
 	//Setup viewport
 	glViewport(0, 0, (GLsizei)width, (GLsizei)height);
 
-	//Change to project matrix mode
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-
-	//Calculate perspective matrix, using glu library functions
-	gluPerspective(45.0f, ratio, 0.1f, 100.0f);
-
-	//Switch to ModelView
-	glMatrixMode(GL_MODELVIEW);
-
-	//Reset using the Identity Matrix
-	glLoadIdentity();
+	
 }
 
 //Function to draw
@@ -239,31 +235,9 @@ void render(){
 	//Bind EBO
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangleEBO);
 
-	//Establish its 3 coordinates per vertex with zero stride(space between elements)
-	//In array and contain floating point numbers
-	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), NULL);
-	//The last parameter basically says that the colours start 3 floats into
-	//each element of the array
-	glColorPointer(4, GL_FLOAT, sizeof(Vertex), (void**)(3 * sizeof(float)));
-
-	//Establish array containing vertices and colours
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-
-	//Begin drawing triangles
-
-	//Switch to ModelView
-	glMatrixMode(GL_MODELVIEW);
-	//Reset using the Identity Matrix
-	glLoadIdentity();
-	//Calculate view matrix
-	gluLookAt(0.0, 0.0, 0.0, 0.0, 0.0, -1.0, 0.0, 1.0, 0.0);
-	//translate
-	glTranslatef(0.0f, 0.0f, -4.0f);
 	//Actually draw the triangle, giving the number of vertices provided
 	glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, 0);
 
-	
 	//require to swap the back and front buffer
 	SDL_GL_SwapWindow(window);
 
