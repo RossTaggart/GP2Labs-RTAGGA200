@@ -38,7 +38,7 @@ GLuint loadShaderFromFile(const std::string& filename, SHADER_TYPE shaderType);
 		fileContents.resize(len);
 		file.read(&fileContents[0], len);
 		file.close();
-		Gluint program = loadShaderFromMemory(fileContents.c_str(), shaderType);
+		GLuint program = loadShaderFromMemory(fileContents.c_str(), shaderType);
 		return program;
 	}
 
@@ -65,6 +65,13 @@ bool checkForCompilerErrors(Gluint shaderProgram)
 		glDeleteShader(shaderProgram);
 		return true;
 	}
+	
+	if (checkForCompilerErrors(program))
+	{
+
+		return 0;
+	}
+
 	return false;
 
 }
