@@ -1,6 +1,7 @@
 //Header files
 #include <iostream>
 #include "Vertex.h"
+#include "Shader.h"
 //header for SDL2 functionality
 
 #include<gl\glew.h>
