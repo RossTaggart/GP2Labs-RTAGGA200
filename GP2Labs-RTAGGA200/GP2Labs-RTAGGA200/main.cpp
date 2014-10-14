@@ -151,6 +151,7 @@ float cube1PosZ = -4.0f;
 
 GLuint triangleVBO;
 GLuint triangleEBO;
+GLuint VAO;
 
 GLuint shaderProgram = 0;
 
@@ -158,6 +159,7 @@ GLuint shaderProgram = 0;
 mat4 viewMatrix;
 mat4 projMatrix;
 mat4 worldMatrix;
+
 
 //Global functions
 void InitWindow(int width, int height, bool fullscreen){
@@ -174,6 +176,7 @@ void InitWindow(int width, int height, bool fullscreen){
 
 //Used to cleanup once we exit
 void CleanUp(){
+	glDeleteVertexArrays(1, &VAO);
 	glDeleteProgram(shaderProgram);
 	glDeleteBuffers(1, &triangleEBO);
 	glDeleteBuffers(1, &triangleVBO);
@@ -258,6 +261,7 @@ void render(){
 	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
 		//Bind EBO
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangleEBO);
+	glBindVertexArray(VAO);
 
 	glUseProgram(shaderProgram);
 
@@ -288,6 +292,12 @@ void update(){
 }
 
 void initGeometry(){
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+	//Tell the shader that 0 is the position element
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
+
 	//Create buffer
 	glGenBuffers(1, &triangleVBO);
 	//Make the new VBO active
