@@ -152,12 +152,32 @@ float cube1PosZ = -4.0f;
 GLuint triangleVBO;
 GLuint triangleEBO;
 
+GLuint VAO;
+
 GLuint shaderProgram = 0;
 
 //matrices
 mat4 viewMatrix;
 mat4 projMatrix;
 mat4 worldMatrix;
+
+void CheckError()
+{
+	GLenum error = glGetError();
+	if (error == GL_INVALID_VALUE)
+	{
+		std::cout << "Invalid Value" << std::endl;
+	}
+	else if (error == GL_INVALID_OPERATION)
+	{
+		std::cout << "Invalid Operation" << std::endl;
+	}
+	else if (error == GL_INVALID_ENUM)
+	{
+		std::cout << "Invalid Enum" << std::endl;
+	}
+
+}
 
 //Global functions
 void InitWindow(int width, int height, bool fullscreen){
@@ -174,6 +194,7 @@ void InitWindow(int width, int height, bool fullscreen){
 
 //Used to cleanup once we exit
 void CleanUp(){
+	glDeleteVertexArrays(1, &VAO);
 	glDeleteProgram(shaderProgram);
 	glDeleteBuffers(1, &triangleEBO);
 	glDeleteBuffers(1, &triangleVBO);
@@ -224,6 +245,10 @@ void initOpenGL(){
 		/*Problem: glewInit failed, something is seriously wrong*/
 		std::cout << "Error: " << glewGetErrorString(err) << std::endl;
 	}
+	GLenum error;
+	do{
+		 error= glGetError();
+	} while (error != GL_NO_ERROR);
 
 }
 
@@ -258,6 +283,7 @@ void render(){
 	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
 		//Bind EBO
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangleEBO);
+	glBindVertexArray(VAO);
 
 	glUseProgram(shaderProgram);
 
@@ -265,14 +291,13 @@ void render(){
 	mat4 MVP = projMatrix*viewMatrix*worldMatrix;
 	glUniformMatrix4fv(MVPLocation, 1, GL_FALSE, glm::value_ptr(MVP));
 
-	//Tell the shader that 0 is the position element
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
 
+	CheckError();
 
 
 	//Actually draw the triangle, giving the number of vertices provided
-	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, 0);
+	//CheckError();
 
 	//require to swap the back and front buffer
 	SDL_GL_SwapWindow(window);
@@ -288,6 +313,14 @@ void update(){
 }
 
 void initGeometry(){
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+	//Tell the shader that 0 is the position element
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
+
+	//glEnableVertexAttribArray(1);
+	//glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)(3*sizeof(float)));
 	//Create buffer
 	glGenBuffers(1, &triangleVBO);
 	//Make the new VBO active
@@ -304,14 +337,16 @@ void initGeometry(){
 
 }
 
+
+
 void createShader(){
 
 	GLuint vertexShaderProgram = 0;
-	std::string vsPath = ASSET_PATH + SHADER_PATH + "/simpleVS.glsl";
+	std::string vsPath = ASSET_PATH + SHADER_PATH + "/vertexColorVS.glsl";
 	vertexShaderProgram = loadShaderFromFile(vsPath, VERTEX_SHADER);
 
 	GLuint fragmentShaderProgram = 0;
-	std::string fsPath = ASSET_PATH + SHADER_PATH + "/simpleFS.glsl";
+	std::string fsPath = ASSET_PATH + SHADER_PATH + "/vertexColorFS.glsl";
 	fragmentShaderProgram = loadShaderFromFile(fsPath, FRAGMENT_SHADER);
 
 	shaderProgram = glCreateProgram();
@@ -321,6 +356,8 @@ void createShader(){
 	checkForLinkErrors(shaderProgram);
 
 	glBindAttribLocation(shaderProgram, 0, "vertexPosition");
+	//glBindAttribLocation(shaderProgram, 1, "vertexColor");
+	CheckError();
 
 	//now we can delete the VS & FS Programs
 	glDeleteShader(vertexShaderProgram);
@@ -365,4 +402,6 @@ int main(int argc, char* arg[]){
 	}
 
 	CleanUp();
+
+	return 0;
 }
