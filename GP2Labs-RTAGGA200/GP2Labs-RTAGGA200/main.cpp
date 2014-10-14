@@ -256,7 +256,9 @@ void render(){
 
 	//Make the new VBO active. Repeat here as a sanity check (may have changed since init
 	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
-	
+		//Bind EBO
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangleEBO);
+
 	glUseProgram(shaderProgram);
 
 	GLint MVPLocation = glGetUniformLocation(shaderProgram, "MVP");
@@ -265,10 +267,9 @@ void render(){
 
 	//Tell the shader that 0 is the position element
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
 
-	//Bind EBO
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangleEBO);
+
 
 	//Actually draw the triangle, giving the number of vertices provided
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
@@ -282,7 +283,7 @@ void render(){
 void update(){
 
 	projMatrix = glm::perspective(45.0f, (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 100.f);
-	viewMatrix = glm::lookAt(vec3(0.0f, 0.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
+	viewMatrix = glm::lookAt(vec3(0.0f, 0.0f, 5.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
 	worldMatrix = glm::translate(mat4(1.0f), vec3(0.0f, 0.0f, 0.0f));
 }
 

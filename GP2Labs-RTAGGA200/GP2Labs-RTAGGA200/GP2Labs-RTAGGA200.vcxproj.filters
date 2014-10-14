@@ -31,7 +31,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\shaders\simpleVS.glsl" />
-    <None Include="assets\shaders\simpleFS.glsl" />
+    <None Include="..\assets\shaders\simpleFS.glsl" />
+    <None Include="..\assets\shaders\simpleVS.glsl" />
   </ItemGroup>
 </Project>
