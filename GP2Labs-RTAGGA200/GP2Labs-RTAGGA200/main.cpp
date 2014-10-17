@@ -292,6 +292,7 @@ void update(){
 }
 
 void initGeometry(){
+	
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 	//Tell the shader that 0 is the position element
