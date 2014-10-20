@@ -273,7 +273,7 @@ void render(){
 	glUniformMatrix4fv(MVPLocation, 1, GL_FALSE, glm::value_ptr(MVP));
 
 	GLint texture0Location = glGetUniformLocation(shaderProgram, "texture0");
-	glActiveTexture(GL_TEXTURE);
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glUniform1i(texture0Location, 0);
 
