@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Vertex.h"
 #include "Shader.h"
+#include "Texture.h";
 //Maths headers
 #include <glm/glm.hpp>
 using glm::mat4;
@@ -23,6 +24,7 @@ const std::string ASSET_PATH = "assets";
 #endif
 
 const std::string SHADER_PATH = "/shaders";
+const std::string TEXTURE_PATH = "/textures";
 
 //Global variables go here
 //Pointer to our SDL Windows
@@ -36,81 +38,81 @@ const int WINDOW_HEIGHT = 480;
 
 Vertex triangleData[] = {
 	//Front
-		{vec3(-0.5f, 0.5f, 0.5f),
+		{ vec3(-0.5f, 0.5f, 0.5f), vec2(0.0f,0.0f),
 		vec4(1.0f, 0.0f, 1.0f, 1.0f)}, //Top Left
 
-		{vec3(-0.5f, -0.5f, 0.5f),
+		{ vec3(-0.5f, -0.5f, 0.5f), vec2(0.0f, 1.0f),
 		vec4(1.0f, 1.0f, 0.0f, 1.0f)}, //Bottom Left
 
-		{vec3(0.5f, -0.5f, 0.5f),
+		{ vec3(0.5f, -0.5f, 0.5f), vec2(1.0f,1.0f),
 		vec4(0.0f, 1.0f, 1.0f, 1.0f)}, //Bottom Right
 
-		{vec3(0.5f, 0.5f, 0.5f),
+		{ vec3(0.5f, 0.5f, 0.5f), vec2(1.0f,0.0f),
 		vec4(1.0f, 0.0f, 1.0f, 1.0f)}, //Top Right
 
 	//Back
-		{vec3(-0.5f, 0.5f, -0.5f),
+		{ vec3(-0.5f, 0.5f, -0.5f), vec2(0.0f,0.0f),
 		vec4(1.0f, 0.0f, 1.0f, 1.0f)}, //Top Left
 
-		{vec3(-0.5f, -0.5f, -0.5f),
+		{ vec3(-0.5f, -0.5f, -0.5f), vec2(0.0f,1.0f),
 		vec4(1.0f, 1.0f, 0.0f, 1.0f)}, //Bottom Left
 
-		{vec3(0.5f, -0.5f, -0.5f),
+		{ vec3(0.5f, -0.5f, -0.5f), vec2(1.0f,1.0f),
 		vec4(0.0f, 1.0f, 1.0f, 1.0f)}, //Bottom Right
 
-		{vec3(0.5f, 0.5f, -0.5f),
+		{ vec3(0.5f, 0.5f, -0.5f), vec2(1.0f,0.0f),
 		vec4(1.0f, 0.0f, 1.0f, 1.0f)}, //Top Right
 		
 	//Right
-		{vec3(0.5f, 0.5f, 0.5f),
+		{ vec3(0.5f, 0.5f, 0.5f), vec2(0.0f,0.0f),
 		vec4(1.0f, 0.0f, 1.0f, 0.0f)}, //Top Left
 
-		{vec3(0.5f, -0.5f, 0.5f),
+		{ vec3(0.5f, -0.5f, 0.5f), vec2(0.0f,1.0f),
 		vec4(0.0f, 1.0f, 1.0f, 1.0f)}, //Bottom Left
 
-		{vec3(0.5f, -0.5f, -0.5f),
+		{ vec3(0.5f, -0.5f, -0.5f), vec2(1.0f,1.0f),
 		vec4(0.0f, 1.0f, 1.0f, 1.0f)}, //Bottom Right
 
-		{vec3(0.5f, 0.5f, -0.5f),
+		{ vec3(0.5f, 0.5f, -0.5f), vec2(1.0f,0.0f),
 		vec4(1.0f, 0.0f, 1.0f, 1.0f)}, //Top Right
 
 	//Left
-		{vec3(-0.5f, 0.5f, -0.5f),
+		{ vec3(-0.5f, 0.5f, -0.5f), vec2(0.0f,0.0f),
 		vec4(1.0f, 0.0f, 1.0f, 0.0f)}, //Top left
 
-		{vec3(-0.5f, -0.5f, -0.5f),
+		{ vec3(-0.5f, -0.5f, -0.5f), vec2(0.0f,1.0f),
 		vec4(1.0f, 1.0f, 0.0f, 1.0f)}, //Bottom Left
 
-		{vec3(-0.5f, -0.5f, 0.5f),
+		{ vec3(-0.5f, -0.5f, 0.5f), vec2(1.0f,1.0f),
 		vec4(1.0f, 1.0f, 0.0f, 1.0f)}, //Bottom Right
 
-		{vec3(-0.5f, 0.5f, 0.5f),
+		{ vec3(-0.5f, 0.5f, 0.5f), vec2(1.0f,0.0f),
 		vec4(1.0f, 0.0f, 1.0f, 1.0f)}, //Top Right
 
 	//Top
-		{vec3(-0.5f, 0.5f, -0.5f),
+		{ vec3(-0.5f, 0.5f, -0.5f), vec2(0.0f,0.0f),
 		vec4(1.0f, 0.0f, 1.0f, 1.0f)}, //Top Left
 
-		{vec3(-0.5f, -0.5f, 0.5f),
+		{ vec3(-0.5f, -0.5f, 0.5f), vec2(0.0f,1.0f),
 		vec4(1.0f, 0.0f, 1.0f, 1.0f)}, //Bottom Left
 
-		{vec3(0.5f, 0.5f, 0.5f),
+		{ vec3(0.5f, 0.5f, 0.5f), vec2(1.0f,1.0f),
 		vec4(1.0f, 0.0f, 1.0f, 1.0f)}, //Bottom Right
 
-		{vec3(0.5f, 0.5f, -0.5f),
+		{ vec3(0.5f, 0.5f, -0.5f), vec2(1.0f,0.0f),
 		vec4(1.0f, 0.0f, 1.0f, 1.0f)}, //Top Right
 
 	//Bottom
-		{vec3(-0.5f, -0.5f, -0.5f),
+		{ vec3(-0.5f, -0.5f, -0.5f), vec2(0.0f,0.0f),
 		vec4(1.0f, 1.0f, 0.0f, 1.0f)}, //Top Left
 
-		{vec3(-0.5f, -0.5f, -0.5f),
+		{ vec3(-0.5f, -0.5f, -0.5f), vec2(0.0f,1.0f),
 		vec4(1.0f, 1.0f, 0.0f, 1.0f)}, //Bottom Left
 
-		{vec3(0.5f, -0.5f, 0.5f),
+		{ vec3(0.5f, -0.5f, 0.5f), vec2(1.0f,1.0f),
 		vec4(0.0f, 1.0f, 1.0f, 1.0f)}, //Bottom Right
 
-		{vec3(0.5f, -0.5f, -0.5f),
+		{ vec3(0.5f, -0.5f, -0.5f), vec2(1.0f,0.0f),
 		vec4(0.0f, 1.0f, 1.0f, 1.0f)}, //Top Right
 };
 
@@ -152,8 +154,8 @@ float cube1PosZ = -4.0f;
 GLuint triangleVBO;
 GLuint triangleEBO;
 GLuint VAO;
-
 GLuint shaderProgram = 0;
+GLuint texture = 0;
 
 //matrices
 mat4 viewMatrix;
@@ -176,6 +178,7 @@ void InitWindow(int width, int height, bool fullscreen){
 
 //Used to cleanup once we exit
 void CleanUp(){
+	glDeleteTextures(1, &texture);
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteProgram(shaderProgram);
 	glDeleteBuffers(1, &triangleEBO);
@@ -269,11 +272,18 @@ void render(){
 	mat4 MVP = projMatrix*viewMatrix*worldMatrix;
 	glUniformMatrix4fv(MVPLocation, 1, GL_FALSE, glm::value_ptr(MVP));
 
+	GLint texture0Location = glGetUniformLocation(shaderProgram, "texture0");
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glUniform1i(texture0Location, 0);
+
 	//Tell the shader that 0 is the position element
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 4, GL_FLOAT, FALSE, sizeof(Vertex), (void**)sizeof(vec3));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)sizeof(vec3));
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)(sizeof(vec3) + sizeof(vec2)));
 
 
 	//Actually draw the triangle, giving the number of vertices provided
@@ -319,11 +329,11 @@ void initGeometry(){
 void createShader(){
 
 	GLuint vertexShaderProgram = 0;
-	std::string vsPath = ASSET_PATH + SHADER_PATH + "/simpleVS.glsl";
+	std::string vsPath = ASSET_PATH + SHADER_PATH + "/textureVS.glsl";
 	vertexShaderProgram = loadShaderFromFile(vsPath, VERTEX_SHADER);
 
 	GLuint fragmentShaderProgram = 0;
-	std::string fsPath = ASSET_PATH + SHADER_PATH + "/simpleFS.glsl";
+	std::string fsPath = ASSET_PATH + SHADER_PATH + "/textureFS.glsl";
 	fragmentShaderProgram = loadShaderFromFile(fsPath, FRAGMENT_SHADER);
 
 	shaderProgram = glCreateProgram();
@@ -332,11 +342,19 @@ void createShader(){
 	glLinkProgram(shaderProgram);
 	checkForLinkErrors(shaderProgram);
 
-	glBindAttribLocation(shaderProgram, 0, "vertexPosition");
-
 	//now we can delete the VS & FS Programs
 	glDeleteShader(vertexShaderProgram);
 	glDeleteShader(fragmentShaderProgram);
+
+	glBindAttribLocation(shaderProgram, 0, "vertexPosition");
+	glBindAttribLocation(shaderProgram, 1, "vertexTexCoords");
+	glBindAttribLocation(shaderProgram, 2, "vertexColor");
+}
+
+void createTexture()
+{
+	std::string texturePath = ASSET_PATH + TEXTURE_PATH + "/texture.png";
+	texture = loadTextureFromFile(texturePath);
 }
 
 //Main Method - Entry Point
@@ -354,6 +372,8 @@ int main(int argc, char* arg[]){
 	initOpenGL();
 	//Call our initGeometry function
 	initGeometry();
+	//creates a texture
+	createTexture();
 	//set our viewport
 	setViewport(WINDOW_WIDTH, WINDOW_HEIGHT);
 

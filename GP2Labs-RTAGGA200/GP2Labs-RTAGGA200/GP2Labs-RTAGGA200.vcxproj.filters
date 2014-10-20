@@ -42,4 +42,9 @@
     <None Include="..\assets\shaders\textureFS.glsl" />
     <None Include="..\assets\shaders\textureVS.glsl" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\assets\textures\texture.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
