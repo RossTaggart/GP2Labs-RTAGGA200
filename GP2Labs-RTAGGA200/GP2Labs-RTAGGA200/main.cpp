@@ -262,7 +262,7 @@ void render(){
 
 	//Make the new VBO active. Repeat here as a sanity check (may have changed since init
 	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
-		//Bind EBO
+	//Bind EBO
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangleEBO);
 	glBindVertexArray(VAO);
 
@@ -273,7 +273,7 @@ void render(){
 	glUniformMatrix4fv(MVPLocation, 1, GL_FALSE, glm::value_ptr(MVP));
 
 	GLint texture0Location = glGetUniformLocation(shaderProgram, "texture0");
-	glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE);
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glUniform1i(texture0Location, 0);
 
@@ -284,7 +284,6 @@ void render(){
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)sizeof(vec3));
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)(sizeof(vec3) + sizeof(vec2)));
-
 
 	//Actually draw the triangle, giving the number of vertices provided
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
@@ -307,8 +306,8 @@ void initGeometry(){
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 	//Tell the shader that 0 is the position element
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
+	//glEnableVertexAttribArray(0);
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
 
 	//Create buffer
 	glGenBuffers(1, &triangleVBO);
