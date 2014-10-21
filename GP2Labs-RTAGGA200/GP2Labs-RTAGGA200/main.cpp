@@ -302,7 +302,8 @@ void render(){
 //Function to update game state
 void update(){
 
-	projMatrix = glm::perspective(45.0f, (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 100.f);
+	//projMatrix = glm::perspective(45.0f, (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 100.f);
+	projMatrix = glm::ortho(0.0f, (float)WINDOW_WIDTH, (float)WINDOW_HEIGHT, 0.0f, 0.1f, 100.0f);
 	viewMatrix = glm::lookAt(vec3(0.0f, 0.0f, 5.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
 	worldMatrix = glm::translate(mat4(1.0f), vec3(0.0f, 0.0f, 0.0f));
 }
@@ -367,6 +368,44 @@ void createFont()
 	fontTexture = loadTextureFromFont(fontPath, 12, "THIS IS A TEST");
 }
 
+void initGeometryFromTexture(GLuint textureID)
+{
+	int width, height;
+
+	Vertex	spriteData[] = {
+			{ vec3(0.0, 0.0f, 0.0f), vec2(0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f) },//	Top	Left
+			{ vec3(0.0f, height, 0.0f), vec2(0.0f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f) },//	Bottom	Left
+			{ vec3(width, height, 0.0f), vec2(1.0f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f) },	//Bottom	Right
+			{ vec3(width, 0.0f, 0.0f), vec2(1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f) }//	Top	Right
+	};
+	GLuint	spriteIndices[] = {
+		0, 1, 2,
+		0, 3, 2,
+	};
+
+	glBindTexture(GL_TEXTURE_2D, textureID);
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &width);
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &height);
+
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+
+	glGenBuffers(1, &triangleVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
+	glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(Vertex), spriteData, GL_STATIC_DRAW);
+
+	glGenBuffers(1, &triangleEBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangleEBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(int), spriteIndices, GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)sizeof(vec3));
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)(sizeof(vec3) + sizeof(vec2)));
+}
+
 //Main Method - Entry Point
 int main(int argc, char* arg[]){
 	//init everything - SDL, if it is nonzero we have a problem
@@ -388,15 +427,19 @@ int main(int argc, char* arg[]){
 	initOpenGL();
 	//Call our initGeometry function
 	initGeometry();
+	//set our viewport
+	setViewport(WINDOW_WIDTH, WINDOW_HEIGHT);
+
+	createShader();
 	//creates a texture
 	createTexture();
 	//creates a font
 	createFont();
-	//set our viewport
-	setViewport(WINDOW_WIDTH, WINDOW_HEIGHT);
-
+	//calls our InitGeometry from Textures function
+	initGeometryFromTexture(fontTexture);
+	
 	SDL_Event event;
-	createShader();
+	
 	while (running)
 	{
 		while (SDL_PollEvent(&event))
