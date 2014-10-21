@@ -26,6 +26,7 @@ const std::string ASSET_PATH = "assets";
 
 const std::string SHADER_PATH = "/shaders";
 const std::string TEXTURE_PATH = "/textures";
+const std::string FONT_PATH = "/fonts";
 
 //Global variables go here
 //Pointer to our SDL Windows
@@ -157,6 +158,7 @@ GLuint triangleEBO;
 GLuint VAO;
 GLuint shaderProgram = 0;
 GLuint texture = 0;
+GLuint fontTexture = 0;
 
 //matrices
 mat4 viewMatrix;
@@ -179,6 +181,7 @@ void InitWindow(int width, int height, bool fullscreen){
 
 //Used to cleanup once we exit
 void CleanUp(){
+	glDeleteTextures(1, &fontTexture);
 	glDeleteTextures(1, &texture);
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteProgram(shaderProgram);
@@ -260,6 +263,8 @@ void render(){
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	//clear the colour and depth buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	//Make the new VBO active. Repeat here as a sanity check (may have changed since init
 	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
@@ -275,7 +280,7 @@ void render(){
 
 	GLint texture0Location = glGetUniformLocation(shaderProgram, "texture0");
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture);
+	glBindTexture(GL_TEXTURE_2D, fontTexture);
 	glUniform1i(texture0Location, 0);
 
 	//Tell the shader that 0 is the position element
@@ -356,6 +361,11 @@ void createTexture()
 	std::string texturePath = ASSET_PATH + TEXTURE_PATH + "/texture.png";
 	texture = loadTextureFromFile(texturePath);
 }
+void createFont()
+{
+	std::string fontPath = ASSET_PATH + FONT_PATH + "/OratorStd.otf";
+	fontTexture = loadTextureFromFont(fontPath, 12, "THIS IS A TEST");
+}
 
 //Main Method - Entry Point
 int main(int argc, char* arg[]){
@@ -380,6 +390,8 @@ int main(int argc, char* arg[]){
 	initGeometry();
 	//creates a texture
 	createTexture();
+	//creates a font
+	createFont();
 	//set our viewport
 	setViewport(WINDOW_WIDTH, WINDOW_HEIGHT);
 
