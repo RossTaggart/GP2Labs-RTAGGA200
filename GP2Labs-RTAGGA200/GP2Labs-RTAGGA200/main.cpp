@@ -372,6 +372,10 @@ void initGeometryFromTexture(GLuint textureID)
 {
 	int width, height;
 
+	glBindTexture(GL_TEXTURE_2D, textureID);
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &width);
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &height);
+
 	Vertex	spriteData[] = {
 			{ vec3(0.0, 0.0f, 0.0f), vec2(0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f) },//	Top	Left
 			{ vec3(0.0f, height, 0.0f), vec2(0.0f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f) },//	Bottom	Left
@@ -382,10 +386,6 @@ void initGeometryFromTexture(GLuint textureID)
 		0, 1, 2,
 		0, 3, 2,
 	};
-
-	glBindTexture(GL_TEXTURE_2D, textureID);
-	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &width);
-	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &height);
 
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
