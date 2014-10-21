@@ -16,6 +16,7 @@ using glm::vec3;
 #include<SDL.h>
 #include<SDL_opengl.h>
 #include<gl\GLU.h>
+#include<SDL_ttf.h>
 
 #ifdef _DEBUG && WIN32
 const std::string ASSET_PATH = "../assets";
@@ -365,6 +366,12 @@ int main(int argc, char* arg[]){
 
 		return-1;
 	}
+	
+	if (TTF_Init() == -1)
+	{
+		std::cout << "ERROR TTF_Init: " << TTF_GetError();
+	}
+
 	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, false);
 
 	//Call our InitOpenGL Function
