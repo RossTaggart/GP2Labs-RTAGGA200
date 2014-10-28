@@ -58,3 +58,8 @@ void GameObject::setName(const std::string& name)
 {
 	m_Name = name;
 }
+
+void GameObject::addComponent(Component* component)
+{
+	m_Components.push_back(component);
+}
