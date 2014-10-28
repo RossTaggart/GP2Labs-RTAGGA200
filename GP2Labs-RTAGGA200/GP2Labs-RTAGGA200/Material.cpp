@@ -49,6 +49,6 @@ void Material::Bind()
 
 GLint Material::getUniformLocation(const string& name)
 {
-	GLint MVPLocation = glGetUniformLocation(m_ShaderProgram, "MVP");
+	GLint MVPLocation = glGetUniformLocation(m_ShaderProgram, name.c_str());
 
 }
