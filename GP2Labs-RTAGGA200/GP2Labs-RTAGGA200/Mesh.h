@@ -9,7 +9,7 @@ class Mesh
 {
 	public:
 		void init();
-		void destroy()
+		void destroy();
 		void copyVertexData(int count, int stride, void** data);
 		void copyIndexData(int count, int stride, void** data);
 		void Bind();
