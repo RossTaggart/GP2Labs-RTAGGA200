@@ -6,7 +6,6 @@
 #include "Component.h"
 #include <gl\glew.h>
 
-
 using namespace std;
 
 class Material

@@ -40,6 +40,8 @@ bool Material::loadShader(const string& vertexShader, const string& fragmentShad
 	glBindAttribLocation(m_ShaderProgram, 0, "vertexPosition");
 	glBindAttribLocation(m_ShaderProgram, 1, "vertexTexCoords");
 	glBindAttribLocation(m_ShaderProgram, 2, "vertexColor");
+
+	return true;
 }
 
 void Material::Bind()
@@ -51,4 +53,5 @@ GLint Material::getUniformLocation(const string& name)
 {
 	GLint MVPLocation = glGetUniformLocation(m_ShaderProgram, name.c_str());
 
+	return MVPLocation;
 }
