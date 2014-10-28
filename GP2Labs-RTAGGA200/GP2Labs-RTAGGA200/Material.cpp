@@ -1,5 +1,6 @@
 #include "Material.h"
 #include "Component.h"
+#include "Shader.h"
 
 #include <gl\glew.h>
 #include <SDL.h>
