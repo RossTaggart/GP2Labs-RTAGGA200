@@ -5,6 +5,7 @@
 
 using namespace std;
 
+class GameObject;
 
 class Component
 {
@@ -22,9 +23,12 @@ class Component
 		bool isActive();
 
 	private:
+		GameObject* getParent();
+		void setParent(GameObject *parent);
 	protected:
 		string m_Type;
 		bool m_Active;
+		GameObject * m_Parent;
 };
 
 #endif
