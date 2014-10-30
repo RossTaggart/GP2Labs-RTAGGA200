@@ -5,7 +5,7 @@
 
 #include <gl\glew.h>
 
-class Mesh
+class Mesh : public Component
 {
 	public:
 		Mesh();

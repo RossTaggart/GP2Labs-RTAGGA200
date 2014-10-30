@@ -8,7 +8,7 @@
 
 using namespace std;
 
-class Material
+class Material : public Component
 {
 	public:
 		Material();

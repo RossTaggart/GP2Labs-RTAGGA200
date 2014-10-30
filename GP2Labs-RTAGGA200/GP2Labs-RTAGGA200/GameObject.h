@@ -4,10 +4,9 @@
 #include <string>
 #include <vector>
 
-class Component;
-
 using namespace std;
 
+class Component;
 class Mesh;
 class Material;
 class Camera;
@@ -16,6 +15,8 @@ class Transform;
 class GameObject
 {
 	public:
+		GameObject();
+		~GameObject();
 		void init();
 		void update();
 		void render();

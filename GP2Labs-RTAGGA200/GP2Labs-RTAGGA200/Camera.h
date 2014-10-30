@@ -6,13 +6,12 @@
 #include <glm/glm.hpp>
 using glm::mat4;
 using glm::vec3;
-using glm::vec2;
 using glm::mat4;
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-class Camera
+class Camera : public Component
 {
 	public:
 		Camera();
