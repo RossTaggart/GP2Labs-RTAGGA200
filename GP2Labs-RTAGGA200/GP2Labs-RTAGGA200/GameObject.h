@@ -8,6 +8,11 @@ class Component;
 
 using namespace std;
 
+class Mesh;
+class Material;
+class Camera;
+class Transform;
+
 class GameObject
 {
 	public:
@@ -18,9 +23,21 @@ class GameObject
 		const string getName();
 		void setName(const std::string& name);
 		void addComponent(Component* component);
+		Mesh* getMesh();
+		void setMesh(Mesh * mesh);
+		Material* getMaterial();
+		void setMaterial(Material * material);
+		Camera* getCamera();
+		void setCamera(Camera * camera);
+		Transform* getTransform();
+		void setTransform(Transform * transform);
 	private:
 		string m_Name;
 		vector<Component*> m_Components;
+		Mesh* m_Mesh;
+		Material* m_Material;
+		Camera* m_Camera;
+		Transform* m_Transform;
 	protected:
 };
 

@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "Component.h"
 
 const int WINDOW_WIDTH = 640;
 const int WINDOW_HEIGHT = 480;

@@ -36,7 +36,7 @@ vec3 Transform::getPosition()
 
 void Transform::setPosition(vec3 position)
 {
-
+	m_Position = position;
 }
 
 vec3 Transform::getScale()
@@ -46,7 +46,7 @@ vec3 Transform::getScale()
 
 void Transform::setScale(vec3 scale)
 {
-
+	m_Scale = scale;
 }
 
 vec3 Transform::getRotation()
@@ -56,7 +56,7 @@ vec3 Transform::getRotation()
 
 void Transform::setRotation(vec3 rotation)
 {
-
+	m_Rotation = rotation;
 
 }
 
