@@ -1,8 +1,14 @@
 //Header files
 #include <iostream>
+#include <vector>
 #include "Vertex.h"
 #include "Shader.h"
 #include "Texture.h"
+#include "GameObject.h"
+#include "Mesh.h"
+#include "Transform.h"
+#include "Camera.h"
+#include "Material.h"
 
 //header for SDL2 functionality
 #include <gl\glew.h>
@@ -159,6 +165,8 @@ GLuint VAO3d;
 GLuint texture = 0;
 GLuint fontTexture = 0;
 
+vector<GameObject*> displayList;
+
 //Global functions
 void InitWindow(int width, int height, bool fullscreen)
 {
@@ -170,6 +178,15 @@ void InitWindow(int width, int height, bool fullscreen)
 		height,	//height, in pixels
 		SDL_WINDOW_OPENGL	//flags
 		);
+}
+
+void init()
+{
+	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
+	{
+		(*iter)->init();
+
+	}
 }
 
 void CleanUp2D()
@@ -194,8 +211,23 @@ void CleanUp3D()
 //Used to cleanup once we exit
 void CleanUp()
 {
-	CleanUp2D();
-	CleanUp3D();
+	/*CleanUp2D();
+	CleanUp3D();*/
+	auto iter = displayList.begin();
+	while (iter != displayList.end())
+	{
+		(*iter)->destroy();
+		if ((*iter))
+		{
+			delete(*iter);
+			(*iter) = NULL;
+			iter = displayList.erase(iter);
+		}
+		else
+		{
+			iter++;
+		}
+	}
 	SDL_GL_DeleteContext(glcontext);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
@@ -294,8 +326,31 @@ void render()
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	render2D();
-	render3D();
+	/*render2D();
+	render3D();*/
+
+	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
+	{
+		(*iter)->render();
+		Mesh * currentMesh = (*iter)->getMesh();
+		Transform * currentTransform = (*iter)->getTransform();
+		Material * currentMaterial = (*iter)->getMaterial();
+
+		if (currentMesh && currentTransform && currentMaterial)
+		{
+			currentMesh->Bind();
+			currentMaterial->Bind();
+
+			GLint MVPLocation = currentMaterial->getUniformLocation("MVP");
+			//will sort once we have camera
+			mat4 MVP = mat4();
+			glUniformMatrix4fv(MVPLocation, 1, GL_FALSE, glm::value_ptr(MVP));
+
+			glDrawElements(GL_TRIANGLES, currentMesh->getIndex(), GL_UNSIGNED_INT, 0);
+		}
+
+	}
+
 
 	SDL_GL_SwapWindow(window);
 }
@@ -450,8 +505,14 @@ void Update3D()
 //Function to update game state
 void update()
 {
-	Update2D();
-	Update3D();
+	/*Update2D();
+	Update3D();*/
+
+	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
+	{
+		(*iter)->update();
+
+	}
 }
 
 //Main Method - Entry Point
@@ -475,8 +536,11 @@ int main(int argc, char * arg[])
 
 	setViewport(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-	create2DScene();
-	create3DScene();
+	/*create2DScene();
+	create3DScene();*/
+
+	init();
+
 	SDL_Event event;
 	while (running)
 	{
