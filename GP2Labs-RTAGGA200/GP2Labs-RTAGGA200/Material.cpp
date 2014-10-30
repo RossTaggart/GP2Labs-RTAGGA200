@@ -13,6 +13,16 @@ using namespace std;
 
 using glm::mat4;
 
+Material::Material()
+{
+
+}
+
+Material::~Material()
+{
+	destroy();
+}
+
 void Material::destroy()
 {
 	glDeleteProgram(m_ShaderProgram);

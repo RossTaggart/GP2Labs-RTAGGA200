@@ -22,7 +22,7 @@ class GameObject
 		void destroy();
 		const string getName();
 		void setName(const std::string& name);
-		void addComponent(Component* component);
+		void addComponent(Component * component);
 		Mesh* getMesh();
 		void setMesh(Mesh * mesh);
 		Material* getMaterial();

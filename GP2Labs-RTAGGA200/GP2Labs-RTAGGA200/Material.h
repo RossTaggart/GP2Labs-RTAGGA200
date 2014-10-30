@@ -11,6 +11,8 @@ using namespace std;
 class Material
 {
 	public:
+		Material();
+		~Material();
 		void destroy();
 		bool loadShader(const string& vertexShader, const string& fragmentShader);
 		void Bind();

@@ -9,6 +9,16 @@ using glm::mat4;
 using glm::vec3;
 using glm::vec2;
 
+Mesh::Mesh()
+{
+
+}
+
+Mesh::~Mesh()
+{
+	destroy();
+}
+
 void Mesh::init()
 {
 	glGenVertexArrays(1, &m_VAO);

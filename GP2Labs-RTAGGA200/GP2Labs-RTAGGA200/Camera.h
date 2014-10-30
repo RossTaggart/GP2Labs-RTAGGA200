@@ -15,6 +15,8 @@ using glm::mat4;
 class Camera
 {
 	public:
+		Camera();
+		~Camera();
 		void setPosition(vec3 position);
 		void setLookAt(vec3 lookAt);
 		void setUp(vec3 up);

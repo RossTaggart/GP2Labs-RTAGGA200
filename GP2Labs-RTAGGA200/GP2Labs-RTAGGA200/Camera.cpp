@@ -4,6 +4,16 @@
 const int WINDOW_WIDTH = 640;
 const int WINDOW_HEIGHT = 480;
 
+Camera::Camera()
+{
+
+}
+
+Camera::~Camera()
+{
+
+}
+
 void Camera::setPosition(vec3 position)
 {
 	m_Position = position;

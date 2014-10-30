@@ -10,16 +10,25 @@
 
 using namespace std;
 
+GameObject::GameObject()
+{
+	m_Camera == NULL;
+	m_Mesh == NULL;
+	m_Material == NULL;
+	m_Transform == NULL;
+}
+
+GameObject::~GameObject()
+{
+	destroy();
+}
+
 void GameObject::init()
 {
 	for (auto iter = m_Components.begin(); iter != m_Components.end(); iter++)
 	{
 		(*iter)->init();
-		m_Camera == NULL;
-		m_Mesh == NULL;
-		m_Material == NULL;
-		m_Transform == NULL;
-		
+
 	}
 }
 
@@ -98,7 +107,7 @@ void GameObject::setMaterial(Material* material)
 
 Camera* GameObject::getCamera()
 {
-	return m_Camera();
+	return m_Camera;
 }
 
 void GameObject::setCamera(Camera* camera)

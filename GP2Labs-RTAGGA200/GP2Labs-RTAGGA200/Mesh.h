@@ -8,6 +8,8 @@
 class Mesh
 {
 	public:
+		Mesh();
+		~Mesh();
 		void init();
 		void destroy();
 		void copyVertexData(int count, int stride, void** data);
