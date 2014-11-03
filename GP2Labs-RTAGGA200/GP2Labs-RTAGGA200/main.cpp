@@ -181,6 +181,7 @@ void initialise()
 	cube->setTransform(transform);
 
 	Material *material = new Material();
+
 	cube->setMaterial(material);
 
 	Mesh *mesh = new Mesh();
@@ -336,7 +337,6 @@ void render3D()
 void render()
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClearDepth(1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	/*render2D();

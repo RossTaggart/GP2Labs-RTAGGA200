@@ -13,7 +13,6 @@ using namespace std;
 GameObject::GameObject()
 {
 	m_Name = "GameObject";
-	m_Components.clear();
 	m_Camera = NULL;
 	m_Mesh = NULL;
 	m_Material = NULL;
@@ -81,6 +80,7 @@ void GameObject::setName(const std::string& name)
 
 void GameObject::addComponent(Component* component)
 {
+	component->setParent(this);
 	m_Components.push_back(component);
 }
 
