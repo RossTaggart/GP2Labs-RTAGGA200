@@ -16,9 +16,8 @@ class Camera : public Component
 	public:
 		Camera();
 		~Camera();
-		void setPosition(vec3 position);
-		void setLookAt(vec3 lookAt);
-		void setUp(vec3 up);
+		void setLookAt(float x, float y, float z);
+		void setUp(float x, float y, float z);
 		void setFOV(float FOV);
 		void setAspectRatio(float aspectRatio);
 		void setNearClip(float nearClip);
@@ -27,7 +26,6 @@ class Camera : public Component
 		mat4 getProjectionMatrix();
 		void update();
 	private:
-		vec3 m_Position;
 		vec3 m_LookAt;
 		vec3 m_Up;
 		float m_FOV;

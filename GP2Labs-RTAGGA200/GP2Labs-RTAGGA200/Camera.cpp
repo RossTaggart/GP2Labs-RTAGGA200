@@ -25,19 +25,15 @@ Camera::~Camera()
 
 }
 
-void Camera::setPosition(vec3 position)
+
+void Camera::setLookAt(float x, float y, float z)
 {
-	m_Position = position;
+	m_LookAt = vec3(x, y, z);
 }
 
-void Camera::setLookAt(vec3 lookAt)
+void Camera::setUp(float x, float y, float z)
 {
-	m_LookAt = lookAt;
-}
-
-void Camera::setUp(vec3 up)
-{
-	m_Up = up;
+	m_Up = vec3(x,y,z);
 }
 
 void Camera::setFOV(float FOV)
@@ -73,9 +69,9 @@ mat4 Camera::getProjectionMatrix()
 
 void Camera::update()
 {
-	m_Position = m_Parent->getTransform()->getPosition();
+	vec3 position = m_Parent->getTransform()->getPosition();
 	//m_ProjectionMatrix = glm::ortho(0.0f, (float)WINDOW_WIDTH, (float)WINDOW_HEIGHT, 0.0f, 0.1f, 100.0f);
-	m_ProjectionMatrix = glm::perspective(m_FOV, m_AspectRatio, m_NearClip, m_FarClip);
+	m_ProjectionMatrix = glm::ortho(m_FOV, m_AspectRatio, m_NearClip, m_FarClip);
 	//m_ViewMatrix = glm::lookAt(vec3(0.0f, 0.0f, 5.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
-	m_ViewMatrix = glm::lookAt(m_Position, m_LookAt, m_Up);
+	m_ViewMatrix = glm::lookAt(position, m_LookAt, m_Up);
 }

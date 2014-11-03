@@ -20,11 +20,11 @@ class Transform :public Component
 		~Transform();
 		void update();
 		vec3 getPosition();
-		void setPosition(vec3 position);
+		void setPosition(float x, float y, float z);
 		vec3 getScale();
-		void setScale(vec3 scale);
+		void setScale(float x, float y, float z);
 		vec3 getRotation();
-		void setRotation(vec3 rotation);
+		void setRotation(float x, float y, float z);
 		mat4 getModelMatrix();
 	private:
 		vec3 m_Position;

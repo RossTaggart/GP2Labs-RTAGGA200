@@ -22,9 +22,10 @@ class Component
 		void toggleActive();
 		bool isActive();
 
-	private:
-		GameObject* getParent();
 		void setParent(GameObject *parent);
+		GameObject* getParent();
+
+	private:
 	protected:
 		string m_Type;
 		bool m_Active;

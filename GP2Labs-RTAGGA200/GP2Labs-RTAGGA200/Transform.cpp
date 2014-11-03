@@ -36,9 +36,9 @@ vec3 Transform::getPosition()
 	return m_Position;
 }
 
-void Transform::setPosition(vec3 position)
+void Transform::setPosition(float x, float y, float z)
 {
-	m_Position = position;
+	m_Position = vec3(x,y,z);
 }
 
 vec3 Transform::getScale()
@@ -46,9 +46,9 @@ vec3 Transform::getScale()
 	return m_Scale;
 }
 
-void Transform::setScale(vec3 scale)
+void Transform::setScale(float x, float y, float z)
 {
-	m_Scale = scale;
+	m_Scale = vec3(x,y,z);
 }
 
 vec3 Transform::getRotation()
@@ -56,9 +56,9 @@ vec3 Transform::getRotation()
 	return m_Rotation;
 }
 
-void Transform::setRotation(vec3 rotation)
+void Transform::setRotation(float x, float y, float z)
 {
-	m_Rotation = rotation;
+	m_Rotation = vec3 (x,y,z);
 
 }
 

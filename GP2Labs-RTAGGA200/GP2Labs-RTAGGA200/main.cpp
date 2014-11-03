@@ -160,13 +160,12 @@ void initialise()
 	mainCamera->setName("Camera");
 
 	Transform *t = new Transform();
-	t->setPosition(vec3{ 0.0f, 0.0f, 2.0f });
+	t->setPosition(0.0f,0.0f,10.0f);
 	mainCamera->setTransform(t);
 
 	Camera *c = new Camera();
-	c->setPosition(vec3{ 0.0f, 0.0f, 0.0f });
-	c->setLookAt(vec3{ 0.0f, 0.0f, 0.0f });
-	c->setUp(vec3{ 0.0f, 1.0f, 0.0f });
+	c->setLookAt(0.0f,0.0f,0.0f);
+	c->setUp(0.0f,1.0f,0.0f);
 	c->setFOV(45.0f);
 	c->setAspectRatio(16.0f / 9.0f);
 	c->setNearClip(0.1f);
@@ -178,7 +177,7 @@ void initialise()
 	cube->setName("Cube");
 
 	Transform *transform = new Transform();
-	transform->setPosition(vec3{ 0.0f, 0.0f, 2.0f });
+	transform->setPosition(0.0f,0.0f,0.0f);
 	cube->setTransform(transform);
 
 	Material *material = new Material();
