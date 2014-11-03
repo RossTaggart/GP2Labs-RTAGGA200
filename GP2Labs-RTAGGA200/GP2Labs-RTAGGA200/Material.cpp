@@ -15,6 +15,8 @@ using glm::mat4;
 
 Material::Material()
 {
+	m_ShaderProgram = -1;
+	m_Type = "Material";
 
 }
 

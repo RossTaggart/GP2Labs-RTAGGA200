@@ -17,13 +17,16 @@ class GameObject
 	public:
 		GameObject();
 		~GameObject();
+
 		void init();
 		void update();
 		void render();
 		void destroy();
+
 		const string getName();
 		void setName(const std::string& name);
 		void addComponent(Component * component);
+
 		Mesh* getMesh();
 		void setMesh(Mesh * mesh);
 		Material* getMaterial();

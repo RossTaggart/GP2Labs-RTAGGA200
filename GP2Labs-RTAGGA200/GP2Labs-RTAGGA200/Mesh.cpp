@@ -11,7 +11,12 @@ using glm::vec2;
 
 Mesh::Mesh()
 {
-
+	m_VertexCount = 0;
+	m_IndexCount = 0;
+	m_VBO = 0;
+	m_EBO = 0;
+	m_VAO = 0;
+	m_Type = "Mesh";
 }
 
 Mesh::~Mesh()
@@ -22,8 +27,13 @@ Mesh::~Mesh()
 void Mesh::init()
 {
 	glGenVertexArrays(1, &m_VAO);
+	glBindVertexArray(m_VAO);
+
 	glGenVertexArrays(1, &m_VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+
 	glGenVertexArrays(1, &m_EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
 
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);

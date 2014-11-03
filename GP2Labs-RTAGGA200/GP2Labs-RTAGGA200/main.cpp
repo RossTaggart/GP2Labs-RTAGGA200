@@ -55,33 +55,6 @@ mat4 worldMatrix2d;
 mat4 projMatrix3d;
 mat4 worldMatrix3d;
 
-//Triangle 1 Vetex positions
-//Triangle 1 Vertex 1
-float triangle1vertex1PosX = 0.1f;
-float triangle1vertex1PosY = 1.0f;
-float triangle1vertex1PosZ = 0.0f;
-//Triangle 1 Vertex 2
-float triangle1vertex2PosX = 0.1f;
-float triangle1vertex2PosY = -1.0f;
-float triangle1vertex2PosZ = 0.0f;
-//Triangle 1 Vertex 3
-float triangle1vertex3PosX = 1.1f;
-float triangle1vertex3PosY = -1.0f;
-float triangle1vertex3PosZ = 0.0f;
-//Triangle 2 Vetex positions
-//Triangle 2 Vertex 1
-float triangle2vertex1PosX = -0.1f;
-float triangle2vertex1PosY = 1.0f;
-float triangle2vertex1PosZ = 0.0f;
-//Triangle 2 Vertex 2
-float triangle2vertex2PosX = -0.1f;
-float triangle2vertex2PosY = -1.0f;
-float triangle2vertex2PosZ = 0.0f;
-//Triangle 2 Vertex 3
-float triangle2vertex3PosX = -1.1f;
-float triangle2vertex3PosY = -1.0f;
-float triangle2vertex3PosZ = 0.0f;
-
 //Constants to control window creation
 const int WINDOW_WIDTH = 640;
 const int WINDOW_HEIGHT = 480;
@@ -184,6 +157,7 @@ void InitWindow(int width, int height, bool fullscreen)
 void initialise()
 {
 	mainCamera = new GameObject();
+	mainCamera->setName("Camera");
 
 	Transform *t = new Transform();
 	t->setPosition(vec3{ 0.0f, 0.0f, 2.0f });
@@ -363,6 +337,7 @@ void render3D()
 void render()
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearDepth(1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	/*render2D();
@@ -591,61 +566,12 @@ int main(int argc, char * arg[])
 				//set our boolean which controls the game loop to false
 				running = false;
 			}
-			if (event.type == SDL_KEYDOWN)
-			{
-				//If left key is pressed, move both triangles to the left by a value of 0.1 using their X coordinates
-				if (event.key.keysym.sym == SDLK_LEFT)
-				{
-					//Move triangle 1 vertices along X-axis
-					triangle1vertex1PosX -= 0.1f;
-					triangle1vertex2PosX -= 0.1f;
-					triangle1vertex3PosX -= 0.1f;
-					//Move triangle 2 vertices along X-axis
-					triangle2vertex1PosX -= 0.1f;
-					triangle2vertex2PosX -= 0.1f;
-					triangle2vertex3PosX -= 0.1f;
-				}
-				//If right key is pressed, move both triangles to the right by a value of 0.1 using their X coordinates
-				if (event.key.keysym.sym == SDLK_RIGHT)
-				{
-					//Move triangle 1 vertices along X-axis
-					triangle1vertex1PosX += 0.1f;
-					triangle1vertex2PosX += 0.1f;
-					triangle1vertex3PosX += 0.1f;
-					//Move triangle 2 vertices along X-axis
-					triangle2vertex1PosX += 0.1f;
-					triangle2vertex2PosX += 0.1f;
-					triangle2vertex3PosX += 0.1f;
-				}
-				//If up key is pressed, move both triangles up by a value of 0.1 using their Y coordinates
-				if (event.key.keysym.sym == SDLK_UP)
-				{
-					//Move triangle 1 vertices along Y-axis
-					triangle1vertex1PosY += 0.1f;
-					triangle1vertex2PosY += 0.1f;
-					triangle1vertex3PosY += 0.1f;
-					//Move triangle 2 vertices along Y-axis
-					triangle2vertex1PosY += 0.1f;
-					triangle2vertex2PosY += 0.1f;
-					triangle2vertex3PosY += 0.1f;
-				}
-				//If down key is pressed, move both triangles down by a value of 0.1 using their Y coordinates
-				if (event.key.keysym.sym == SDLK_DOWN)
-				{
-					//Move triangle 1 vertices along Y-axis
-					triangle1vertex1PosY -= 0.1f;
-					triangle1vertex2PosY -= 0.1f;
-					triangle1vertex3PosY -= 0.1f;
-					//Move triangle 2 vertices along Y-axis
-					triangle2vertex1PosY -= 0.1f;
-					triangle2vertex2PosY -= 0.1f;
-					triangle2vertex3PosY -= 0.1f;
-				}
-			}
 		}
+		
 		update();
 		render();
 	}
+
 	CleanUp();
 	return 0;
 }

@@ -12,10 +12,12 @@ using namespace std;
 
 GameObject::GameObject()
 {
-	m_Camera == NULL;
-	m_Mesh == NULL;
-	m_Material == NULL;
-	m_Transform == NULL;
+	m_Name = "GameObject";
+	m_Components.clear();
+	m_Camera = NULL;
+	m_Mesh = NULL;
+	m_Material = NULL;
+	m_Transform = NULL;
 }
 
 GameObject::~GameObject()
