@@ -176,12 +176,14 @@ void initialise()
 	GameObject *cube = new GameObject();
 	cube->setName("Cube");
 
-	Transform *transform = new Transform();
-	transform->setPosition(0.0f,0.0f,0.0f);
-	cube->setTransform(transform);
+	t = new Transform();
+	t->setPosition(0.0f,0.0f,0.0f);
+	cube->setTransform(t);
 
 	Material *material = new Material();
-
+	string vsPath = ASSET_PATH + SHADER_PATH + "/simpleVS.glsl";
+	string fsPath = ASSET_PATH + SHADER_PATH + "/simpleFS.glsl";
+	material->loadShader(vsPath, fsPath);
 	cube->setMaterial(material);
 
 	Mesh *mesh = new Mesh();
@@ -197,29 +199,10 @@ void initialise()
 
 	mesh->copyVertexData(8, sizeof(Vertex), (void**)(triangleData));
 	mesh->copyIndexData(36, sizeof(int), (void**)(indices));
-	string vsPath = ASSET_PATH + SHADER_PATH + "/simpleVS.glsl";
-	string fsPath = ASSET_PATH + SHADER_PATH + "/simpleFS.glsl";
-	material->loadShader(vsPath, fsPath);
+
+
 }
 
-void CleanUp2D()
-{
-	glDeleteTextures(1, &fontTexture);
-	glDeleteProgram(shaderProgram2d);
-	glDeleteBuffers(1, &EBO2d);
-	glDeleteBuffers(1, &VBO2d);
-	glDeleteVertexArrays(1, &VAO2d);
-}
-
-void CleanUp3D()
-{
-	glDeleteTextures(1, &texture);
-	glDeleteProgram(shaderProgram2d);
-	glDeleteProgram(shaderProgram3d);
-	glDeleteBuffers(1, &EBO3d);
-	glDeleteBuffers(1, &VBO3d);
-	glDeleteVertexArrays(1, &VAO3d);
-}
 
 //Used to cleanup once we exit
 void CleanUp()
@@ -298,40 +281,7 @@ void setViewport(int width, int height)
 	glViewport(0, 0, (GLsizei)width, (GLsizei)height);
 }
 
-void render2D()
-{
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	glBindVertexArray(VAO2d);
-	glUseProgram(shaderProgram2d);
-
-	GLint MVPLocation = glGetUniformLocation(shaderProgram2d, "MVP");
-	mat4 MVP = projMatrix2d*viewMatrix*worldMatrix2d;
-	glUniformMatrix4fv(MVPLocation, 1, GL_FALSE, glm::value_ptr(MVP));
-	
-	GLuint texture0Location = glGetUniformLocation(shaderProgram2d, "texture0");
-	glActiveTexture(GL_TEXTURE);
-	glBindTexture(GL_TEXTURE_2D, fontTexture);
-	glUniform1i(texture0Location, 0);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-}
-
-void render3D()
-{
-	glBindVertexArray(VAO3d);
-	glUseProgram(shaderProgram3d);
-
-	GLint MVPLocation = glGetUniformLocation(shaderProgram3d, "MVP");
-	mat4 MVP = projMatrix3d*viewMatrix*worldMatrix3d;
-	glUniformMatrix4fv(MVPLocation, 1, GL_FALSE, glm::value_ptr(MVP));
-
-	GLuint texture0Location = glGetUniformLocation(shaderProgram3d, "texture0");
-	glActiveTexture(GL_TEXTURE);
-	glBindTexture(GL_TEXTURE_2D, texture);
-	glUniform1i(texture0Location, 0);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-}
 
 //Function to draw
 void render()
@@ -339,8 +289,6 @@ void render()
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	/*render2D();
-	render3D();*/
 
 	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
 	{
@@ -359,7 +307,7 @@ void render()
 			mat4 MVP = cam->getViewMatrix()*cam->getProjectionMatrix()*currentTransform->getModelMatrix();
 			glUniformMatrix4fv(MVPLocation, 1, GL_FALSE, glm::value_ptr(MVP));
 
-			glDrawElements(GL_TRIANGLES, currentMesh->getIndex(), GL_UNSIGNED_INT, 0);
+			//glDrawElements(GL_TRIANGLES, currentMesh->getIndex(), GL_UNSIGNED_INT, 0);
 		}
 
 	}
@@ -368,158 +316,10 @@ void render()
 	SDL_GL_SwapWindow(window);
 }
 
-void create2DScene()
-{
-	std::string fontPath = ASSET_PATH + FONT_PATH + "/OratorStd.otf";
-	fontTexture = loadTextureFromFont(fontPath, 64, "Hello!");
-
-	GLuint vertexShaderProgram = 0;
-
-	std::string vsPath = ASSET_PATH + SHADER_PATH + "/textureVS.glsl";
-	vertexShaderProgram = loadShaderFromFile(vsPath, VERTEX_SHADER);
-
-	GLuint fragmentShaderProgram = 0;
-
-	std::string fsPath = ASSET_PATH + SHADER_PATH + "/textureFS.glsl";
-	fragmentShaderProgram = loadShaderFromFile(fsPath, FRAGMENT_SHADER);
-
-	shaderProgram2d = glCreateProgram();
-
-	glAttachShader(shaderProgram2d, vertexShaderProgram);
-	glAttachShader(shaderProgram2d, fragmentShaderProgram);
-	glLinkProgram(shaderProgram2d);
-	checkForLinkErrors(shaderProgram2d);
-
-	//now we can delete the VS & FS Programs
-	glDeleteShader(vertexShaderProgram);
-	glDeleteShader(fragmentShaderProgram);
-
-	glBindAttribLocation(shaderProgram2d, 0, "vertexPosition");
-	glBindAttribLocation(shaderProgram2d, 1, "vertexTexCoords");
-	glBindAttribLocation(shaderProgram2d, 2, "vertexColour");
-
-	int width, height;
-
-	glBindTexture(GL_TEXTURE_2D, fontTexture);
-	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &width);
-	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &height);
-	Vertex spriteData[] = 
-	{
-			{ vec3(0.0f, 0.0f, 0.0f), vec2(0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f) }, //Top Left
-			{ vec3(0.0f, height, 0.0f), vec2(0.0f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f) }, //Bottom Left
-			{ vec3(width, height, 0.0f), vec2(1.0f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f) }, //Bottom Right
-			{ vec3(width, 0.0f, 0.0f), vec2(1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f) } //Top Right
-	};
-
-	GLuint spriteIndices[] = 
-	{
-		0, 1, 2,
-		0, 3, 2,
-	};
-
-	glGenVertexArrays(1, &VAO2d);
-	glBindVertexArray(VAO2d);
-
-	glGenBuffers(1, &VBO2d);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO2d);
-
-	glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(Vertex), spriteData, GL_STATIC_DRAW);
-
-	glGenBuffers(1, &EBO2d);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO2d);
-
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(int), spriteIndices, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
-
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)sizeof(vec3));
-
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)(sizeof(vec3) + sizeof(vec2)));
-}
-
-void create3DScene()
-{
-	std::string texturePath = ASSET_PATH + TEXTURE_PATH + "/texture.png";
-	texture = loadTextureFromFile(texturePath);
-
-	GLuint vertexShaderProgram = 0;
-	std::string vsPath = ASSET_PATH + SHADER_PATH + "/textureVS.glsl";
-	vertexShaderProgram = loadShaderFromFile(vsPath, VERTEX_SHADER);
-
-	GLuint fragmentShaderProgram = 0;
-	std::string fsPath = ASSET_PATH + SHADER_PATH + "/textureFS.glsl";
-
-	fragmentShaderProgram = loadShaderFromFile(fsPath, FRAGMENT_SHADER);
-
-	shaderProgram3d = glCreateProgram();
-	glAttachShader(shaderProgram3d, vertexShaderProgram);
-	glAttachShader(shaderProgram3d, fragmentShaderProgram);
-	glLinkProgram(shaderProgram3d);
-	checkForLinkErrors(shaderProgram3d);
-
-	//now we can delete the VS & FS Programs
-	glDeleteShader(vertexShaderProgram);
-	glDeleteShader(fragmentShaderProgram);
-	glBindAttribLocation(shaderProgram3d, 0, "vertexPosition");
-	glBindAttribLocation(shaderProgram3d, 1, "vertexTexCoords");
-	glBindAttribLocation(shaderProgram3d, 2, "vertexColour");
-	Vertex triangleData[] = 
-	{
-		//Front
-			{ vec3(-0.5f, 0.5f, 0.5f), vec2(0.0f, 0.0f), vec4(1.0f, 0.0f, 1.0f, 1.0f) }, //Top Left
-			{ vec3(-0.5f, -0.5f, 0.5f), vec2(0.0f, 1.0f), vec4(1.0f, 1.0f, 0.0f, 1.0f) }, //Bottom Left
-			{ vec3(0.5f, -0.5f, 0.5f), vec2(1.0f, 1.0f), vec4(0.0f, 1.0f, 1.0f, 1.0f) }, //Bottom Right
-			{ vec3(0.5f, 0.5f, 0.5f), vec2(1.0f, 0.0f), vec4(1.0f, 0.0f, 1.0f, 1.0f) }, //Top Right
-	};
-
-	GLuint indices[] = 
-	{
-		//Front
-		0, 1, 2,
-		0, 3, 2,
-	};
-
-	glGenVertexArrays(1, &VAO3d);
-	glBindVertexArray(VAO3d);
-
-	glGenBuffers(1, &VBO3d);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO3d);
-
-	glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(Vertex), triangleData, GL_STATIC_DRAW);
-	glGenBuffers(1, &EBO3d);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO3d);
-
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(int), indices, GL_STATIC_DRAW);
-
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)sizeof(vec3));
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)(sizeof(vec3) + sizeof(vec2)));
-}
-
-void Update2D()
-{
-	viewMatrix = glm::lookAt(vec3(0.0f, 0.0f, 2.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
-	projMatrix2d = glm::ortho(0.0f, (float)WINDOW_WIDTH, (float)WINDOW_HEIGHT, 0.0f, 0.1f, 100.0f);
-	worldMatrix2d = glm::translate(mat4(1.0f), vec3(0.0f, -10.0f, -10.0f));
-}
-
-void Update3D()
-{
-	projMatrix3d = glm::perspective(45.0f, (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 100.0f);
-	viewMatrix = glm::lookAt(vec3(0.0f, 0.0f, 5.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
-	worldMatrix3d = glm::translate(mat4(1.0f), vec3(0.0f, 0.0f, 0.0f));
-}
 
 //Function to update game state
 void update()
 {
-	/*Update2D();
-	Update3D();*/
 
 	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
 	{
@@ -549,8 +349,6 @@ int main(int argc, char * arg[])
 
 	setViewport(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-	/*create2DScene();
-	create3DScene();*/
 
 	initialise();
 

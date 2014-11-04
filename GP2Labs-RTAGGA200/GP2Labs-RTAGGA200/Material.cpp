@@ -45,6 +45,7 @@ bool Material::loadShader(const string& vertexShader, const string& fragmentShad
 	glAttachShader(m_ShaderProgram, vertexShaderProgram);
 	glAttachShader(m_ShaderProgram, fragmentShaderProgram);
 	glLinkProgram(m_ShaderProgram);
+	checkForLinkErrors(m_ShaderProgram);
 
 	//now we can delete the VS & FS Programs
 	glDeleteShader(vertexShaderProgram);
