@@ -176,14 +176,12 @@ void initialise()
 	GameObject *cube = new GameObject();
 	cube->setName("Cube");
 
-	t = new Transform();
-	t->setPosition(0.0f,0.0f,0.0f);
-	cube->setTransform(t);
+	Transform *transform = new Transform();
+	transform->setPosition(0.0f,0.0f,0.0f);
+	cube->setTransform(transform);
 
 	Material *material = new Material();
-	string vsPath = ASSET_PATH + SHADER_PATH + "/simpleVS.glsl";
-	string fsPath = ASSET_PATH + SHADER_PATH + "/simpleFS.glsl";
-	material->loadShader(vsPath, fsPath);
+
 	cube->setMaterial(material);
 
 	Mesh *mesh = new Mesh();
@@ -199,10 +197,10 @@ void initialise()
 
 	mesh->copyVertexData(8, sizeof(Vertex), (void**)(triangleData));
 	mesh->copyIndexData(36, sizeof(int), (void**)(indices));
-
-
+	string vsPath = ASSET_PATH + SHADER_PATH + "/simpleVS.glsl";
+	string fsPath = ASSET_PATH + SHADER_PATH + "/simpleFS.glsl";
+	material->loadShader(vsPath, fsPath);
 }
-
 
 //Used to cleanup once we exit
 void CleanUp()
@@ -281,14 +279,11 @@ void setViewport(int width, int height)
 	glViewport(0, 0, (GLsizei)width, (GLsizei)height);
 }
 
-
-
 //Function to draw
 void render()
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 
 	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
 	{
@@ -307,7 +302,7 @@ void render()
 			mat4 MVP = cam->getProjectionMatrix()*cam->getViewMatrix()*currentTransform->getModelMatrix();
 			glUniformMatrix4fv(MVPLocation, 1, GL_FALSE, glm::value_ptr(MVP));
 
-			//glDrawElements(GL_TRIANGLES, currentMesh->getIndex(), GL_UNSIGNED_INT, 0);
+			glDrawElements(GL_TRIANGLES, currentMesh->getIndex(), GL_UNSIGNED_INT, 0);
 		}
 
 	}
@@ -316,11 +311,9 @@ void render()
 	SDL_GL_SwapWindow(window);
 }
 
-
 //Function to update game state
 void update()
 {
-
 	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
 	{
 		(*iter)->update();
@@ -349,6 +342,8 @@ int main(int argc, char * arg[])
 
 	setViewport(WINDOW_WIDTH, WINDOW_HEIGHT);
 
+	/*create2DScene();
+	create3DScene();*/
 
 	initialise();
 

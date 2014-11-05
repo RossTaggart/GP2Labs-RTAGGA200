@@ -69,10 +69,10 @@ void Mesh::copyVertexData(int count, int stride, void** data)
 
 void Mesh::Bind()
 {
+	glBindVertexArray(m_VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-	glBindVertexArray(m_VAO);
-
+	
 }
 
 GLuint Mesh::getIndex()
