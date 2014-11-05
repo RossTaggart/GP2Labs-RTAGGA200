@@ -304,7 +304,7 @@ void render()
 
 			GLint MVPLocation = currentMaterial->getUniformLocation("MVP");
 			Camera *cam = mainCamera->getCamera();
-			mat4 MVP = cam->getViewMatrix()*cam->getProjectionMatrix()*currentTransform->getModelMatrix();
+			mat4 MVP = cam->getProjectionMatrix()*cam->getViewMatrix()*currentTransform->getModelMatrix();
 			glUniformMatrix4fv(MVPLocation, 1, GL_FALSE, glm::value_ptr(MVP));
 
 			//glDrawElements(GL_TRIANGLES, currentMesh->getIndex(), GL_UNSIGNED_INT, 0);

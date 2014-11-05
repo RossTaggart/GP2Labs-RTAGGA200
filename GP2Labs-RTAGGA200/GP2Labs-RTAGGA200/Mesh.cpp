@@ -29,10 +29,10 @@ void Mesh::init()
 	glGenVertexArrays(1, &m_VAO);
 	glBindVertexArray(m_VAO);
 
-	glGenVertexArrays(1, &m_VBO);
+	glGenBuffers(1, &m_VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 
-	glGenVertexArrays(1, &m_EBO);
+	glGenBuffers(1, &m_EBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
 
 	glEnableVertexAttribArray(0);

@@ -70,8 +70,6 @@ mat4 Camera::getProjectionMatrix()
 void Camera::update()
 {
 	vec3 position = m_Parent->getTransform()->getPosition();
-	//m_ProjectionMatrix = glm::ortho(0.0f, (float)WINDOW_WIDTH, (float)WINDOW_HEIGHT, 0.0f, 0.1f, 100.0f);
-	m_ProjectionMatrix = glm::ortho(m_FOV, m_AspectRatio, m_NearClip, m_FarClip);
-	//m_ViewMatrix = glm::lookAt(vec3(0.0f, 0.0f, 5.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
+	m_ProjectionMatrix = glm::perspective(m_FOV, m_AspectRatio, m_NearClip, m_FarClip);
 	m_ViewMatrix = glm::lookAt(position, m_LookAt, m_Up);
 }
