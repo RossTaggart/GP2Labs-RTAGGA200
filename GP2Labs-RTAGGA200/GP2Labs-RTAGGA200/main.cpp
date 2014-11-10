@@ -26,13 +26,13 @@ using glm::vec3;
 #include <glm/gtc/type_ptr.hpp>
 
 #ifdef _DEBUG && WIN32
-const std::string ASSET_PATH = "../assets";
+const std::string ASSET_PATH = "../assets/";
 #else
 const std::string ASSET_PATH = "assets";
 #endif
-const std::string SHADER_PATH = "/shaders";
-const std::string TEXTURE_PATH = "/textures";
-const std::string FONT_PATH = "/fonts";
+const std::string SHADER_PATH = "shaders/";
+const std::string TEXTURE_PATH = "textures/";
+const std::string FONT_PATH = "fonts/";
 
 //Global variables go here
 //Pointer to our SDL Windows
@@ -106,7 +106,7 @@ GameObject * mainCamera;
 void InitWindow(int width, int height, bool fullscreen)
 {
 	//Create a window
-	window = SDL_CreateWindow("Lab 1",	//window title
+	window = SDL_CreateWindow("Lab 6",	//window title
 		SDL_WINDOWPOS_CENTERED,	//x position, centered
 		SDL_WINDOWPOS_CENTERED,	//y position, centered
 		width,	//width, in pixels
@@ -128,7 +128,7 @@ void initialise()
 	//c->setLookAt(0.0f,0.0f,0.0f);
 	//c->setUp(0.0f,1.0f,0.0f);
 	c->setFOV(45.0f);
-	c->setAspectRatio(WINDOW_WIDTH / WINDOW_HEIGHT);
+	c->setAspectRatio((float)WINDOW_WIDTH / WINDOW_HEIGHT);
 	c->setNearClip(0.1f);
 	c->setFarClip(100.0f);
 	mainCamera->setCamera(c);
@@ -248,6 +248,7 @@ void setViewport(int width, int height)
 void render()
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearDepth(1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
