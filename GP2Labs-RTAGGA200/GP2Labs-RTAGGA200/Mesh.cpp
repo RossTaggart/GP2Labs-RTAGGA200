@@ -64,7 +64,6 @@ void Mesh::copyVertexData(int count, int stride, void** data)
 	m_VertexCount = count;
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 	glBufferData(GL_ARRAY_BUFFER, count*stride, data, GL_STATIC_DRAW);
-	
 }
 
 void Mesh::Bind()
@@ -72,7 +71,6 @@ void Mesh::Bind()
 	glBindVertexArray(m_VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-	
 }
 
 GLuint Mesh::getIndex()

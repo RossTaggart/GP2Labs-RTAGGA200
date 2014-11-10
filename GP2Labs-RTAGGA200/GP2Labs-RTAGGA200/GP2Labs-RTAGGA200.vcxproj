@@ -80,6 +80,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Image Include="..\assets\textures\texture.png" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -106,9 +109,6 @@
     <None Include="..\assets\shaders\simpleVS.glsl" />
     <None Include="..\assets\shaders\textureFS.glsl" />
     <None Include="..\assets\shaders\textureVS.glsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\assets\textures\texture.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -74,31 +74,7 @@ Vertex triangleData[] =
 		{ vec3(-0.5f, 0.5f, -0.5f), vec2(0.0f, 0.0f), vec4(1.0f, 0.0f, 1.0f, 1.0f) }, //Top Left
 		{ vec3(-0.5f, -0.5f, -0.5f), vec2(0.0f, 1.0f), vec4(1.0f, 1.0f, 0.0f, 1.0f) }, //Bottom Left
 		{ vec3(0.5f, -0.5f, -0.5f), vec2(1.0f, 1.0f), vec4(0.0f, 1.0f, 1.0f, 1.0f) }, //Bottom Right
-		{ vec3(0.5f, 0.5f, -0.5f), vec2(1.0f, 0.0f), vec4(1.0f, 0.0f, 1.0f, 1.0f) }, //Top Right
-
-		//Left
-		{ vec3(-0.5f, 0.5f, -0.5f), vec2(0.0f, 0.0f), vec4(1.0f, 0.0f, 1.0f, 1.0f) }, //Top Left
-		{ vec3(-0.5f, -0.5f, -0.5f), vec2(0.0f, 1.0f), vec4(1.0f, 1.0f, 0.0f, 1.0f) }, //Bottom Left
-		{ vec3(-0.5f, -0.5f, 0.5f), vec2(1.0f, 1.0f), vec4(0.0f, 1.0f, 1.0f, 1.0f) }, //Bottom Right
-		{ vec3(-0.5f, 0.5f, 0.5f), vec2(1.0f, 0.0f), vec4(1.0f, 0.0f, 1.0f, 1.0f) }, //Top Right
-
-		//Right
-		{ vec3(0.5f, 0.5f, 0.5f), vec2(0.0f, 0.0f), vec4(1.0f, 0.0f, 1.0f, 1.0f) }, //Top Left
-		{ vec3(0.5f, -0.5f, 0.5f), vec2(0.0f, 1.0f), vec4(1.0f, 1.0f, 0.0f, 1.0f) }, //Bottom Left
-		{ vec3(0.5f, -0.5f, -0.5f), vec2(1.0f, 1.0f), vec4(0.0f, 1.0f, 1.0f, 1.0f) }, //Bottom Right
-		{ vec3(0.5f, 0.5f, -0.5f), vec2(1.0f, 0.0f), vec4(1.0f, 0.0f, 1.0f, 1.0f) }, //Top Right
-
-		//Top
-		{ vec3(-0.5f, 0.5f, -0.5f), vec2(0.0f, 0.0f), vec4(1.0f, 0.0f, 1.0f, 1.0f) }, //Top Left
-		{ vec3(-0.5f, 0.5f, 0.5f), vec2(0.0f, 1.0f), vec4(1.0f, 1.0f, 0.0f, 1.0f) }, //Bottom Left
-		{ vec3(0.5f, 0.5f, 0.5f), vec2(1.0f, 1.0f), vec4(0.0f, 1.0f, 1.0f, 1.0f) }, //Bottom Right
-		{ vec3(0.5f, 0.5f, -0.5f), vec2(1.0f, 0.0f), vec4(1.0f, 0.0f, 1.0f, 1.0f) }, //Top Right
-
-		//Bottom
-		{ vec3(-0.5f, -0.5f, 0.5f), vec2(0.0f, 0.0f), vec4(1.0f, 0.0f, 1.0f, 1.0f) }, //Top Left
-		{ vec3(-0.5f, -0.5f, -0.5f), vec2(0.0f, 1.0f), vec4(1.0f, 1.0f, 0.0f, 1.0f) }, //Bottom Left
-		{ vec3(0.5f, -0.5f, -0.5f), vec2(1.0f, 1.0f), vec4(0.0f, 1.0f, 1.0f, 1.0f) }, //Bottom Right
-		{ vec3(0.5f, -0.5f, 0.5f), vec2(1.0f, 0.0f), vec4(1.0f, 0.0f, 1.0f, 1.0f) }, //Top Right
+		{ vec3(0.5f, 0.5f, -0.5f), vec2(1.0f, 0.0f), vec4(1.0f, 0.0f, 1.0f, 1.0f) } //Top Right
 
 };
 
@@ -123,20 +99,6 @@ GLuint indices[] =
 	4, 5, 6,
 	4, 7, 6
 };
-
-//2D
-GLuint VBO2d;
-GLuint EBO2d;
-GLuint VAO2d;
-
-//3D
-GLuint VBO3d;
-GLuint EBO3d;
-GLuint VAO3d;
-
-//Textures
-GLuint texture = 0;
-GLuint fontTexture = 0;
 
 vector<GameObject*> displayList;
 GameObject * mainCamera;
@@ -164,10 +126,10 @@ void initialise()
 	mainCamera->setTransform(t);
 
 	Camera *c = new Camera();
-	c->setLookAt(0.0f,0.0f,0.0f);
-	c->setUp(0.0f,1.0f,0.0f);
+	//c->setLookAt(0.0f,0.0f,0.0f);
+	//c->setUp(0.0f,1.0f,0.0f);
 	c->setFOV(45.0f);
-	c->setAspectRatio(16.0f / 9.0f);
+	c->setAspectRatio(WINDOW_WIDTH / WINDOW_HEIGHT);
 	c->setNearClip(0.1f);
 	c->setFarClip(100.0f);
 	mainCamera->setCamera(c);
@@ -176,12 +138,14 @@ void initialise()
 	GameObject *cube = new GameObject();
 	cube->setName("Cube");
 
-	Transform *transform = new Transform();
-	transform->setPosition(0.0f,0.0f,0.0f);
-	cube->setTransform(transform);
+	t = new Transform();
+	t->setPosition(0.0f,0.0f,0.0f);
+	cube->setTransform(t);
 
 	Material *material = new Material();
-
+	string vsPath = ASSET_PATH + SHADER_PATH + "/simpleVS.glsl";
+	string fsPath = ASSET_PATH + SHADER_PATH + "/simpleFS.glsl";
+	material->loadShader(vsPath, fsPath);
 	cube->setMaterial(material);
 
 	Mesh *mesh = new Mesh();
@@ -197,16 +161,14 @@ void initialise()
 
 	mesh->copyVertexData(8, sizeof(Vertex), (void**)(triangleData));
 	mesh->copyIndexData(36, sizeof(int), (void**)(indices));
-	string vsPath = ASSET_PATH + SHADER_PATH + "/simpleVS.glsl";
-	string fsPath = ASSET_PATH + SHADER_PATH + "/simpleFS.glsl";
-	material->loadShader(vsPath, fsPath);
+
+
 }
+
 
 //Used to cleanup once we exit
 void CleanUp()
 {
-	/*CleanUp2D();
-	CleanUp3D();*/
 	auto iter = displayList.begin();
 	while (iter != displayList.end())
 	{
@@ -222,6 +184,8 @@ void CleanUp()
 			iter++;
 		}
 	}
+	displayList.clear();
+
 	SDL_GL_DeleteContext(glcontext);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
@@ -279,11 +243,14 @@ void setViewport(int width, int height)
 	glViewport(0, 0, (GLsizei)width, (GLsizei)height);
 }
 
+
+
 //Function to draw
 void render()
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 
 	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
 	{
@@ -311,9 +278,11 @@ void render()
 	SDL_GL_SwapWindow(window);
 }
 
+
 //Function to update game state
 void update()
 {
+
 	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
 	{
 		(*iter)->update();
@@ -342,8 +311,6 @@ int main(int argc, char * arg[])
 
 	setViewport(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-	/*create2DScene();
-	create3DScene();*/
 
 	initialise();
 

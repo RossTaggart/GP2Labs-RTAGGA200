@@ -50,6 +50,7 @@ bool Material::loadShader(const string& vertexShader, const string& fragmentShad
 	//now we can delete the VS & FS Programs
 	glDeleteShader(vertexShaderProgram);
 	glDeleteShader(fragmentShaderProgram);
+
 	glBindAttribLocation(m_ShaderProgram, 0, "vertexPosition");
 	glBindAttribLocation(m_ShaderProgram, 1, "vertexTexCoords");
 	glBindAttribLocation(m_ShaderProgram, 2, "vertexColor");
