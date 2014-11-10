@@ -61,7 +61,6 @@ const int WINDOW_HEIGHT = 480;
 
 bool running = true;
 
-
 Vertex triangleData[] = 
 {
 	//Front

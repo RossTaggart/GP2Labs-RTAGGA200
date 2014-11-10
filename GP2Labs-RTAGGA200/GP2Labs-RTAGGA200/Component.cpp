@@ -43,3 +43,8 @@ void Component::setParent(GameObject * parent)
 {
 	m_Parent = parent;
 }
+
+void Component::toggleActive()
+{
+	m_Active != m_Active;
+}

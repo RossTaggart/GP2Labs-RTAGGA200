@@ -16,8 +16,10 @@ Transform::~Transform()
 
 }
 
-void Transform:: update()
+void Transform::update()
 {
+	if (m_Active)
+	{
 	
 		mat4 translate = glm::translate(mat4(1.0f), m_Position);
 		mat4 scale = glm::scale(mat4(1.0f), m_Scale);
@@ -28,6 +30,8 @@ void Transform:: update()
 		mat4 rotation = rotationX*rotationY*rotationZ;
 
 		m_Model = translate*rotation*scale;
+
+	}
 	
 }
 
