@@ -124,6 +124,20 @@ void initialise()
 	mainCamera = new GameObject();
 	mainCamera->setName("Camera");
 
+	string ModelPath = ASSET_PATH + MODEL_PATH + "armoredrecon.fbx";
+	GameObject* go = loadFBXFromFile(ModelPath);
+	for (int i = 0; i < go->getChildCount(); i++)
+	{
+		Material* material = new Material();
+		material->init();
+		string vsPath = ASSET_PATH + SHADER_PATH + "/simpleVS.glsl";
+		string fsPath = ASSET_PATH + SHADER_PATH + "/simpleFS.glsl";
+		material->loadShader(vsPath, fsPath);
+
+		go->getChild(i)->setMaterial(material);
+	}
+	displayList.push_back(go);
+
 	Transform *t = new Transform();
 	t->setPosition(0.0f,0.0f,10.0f);
 	mainCamera->setTransform(t);
