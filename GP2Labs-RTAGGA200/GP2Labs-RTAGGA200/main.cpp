@@ -61,43 +61,43 @@ const int WINDOW_HEIGHT = 480;
 
 bool running = true;
 
-Vertex triangleData[] = 
-{
-	//Front
-		{ vec3(-0.5f, 0.5f, 0.5f), vec2(0.0f, 0.0f), vec4(1.0f, 0.0f, 1.0f, 1.0f) }, //Top Left
-		{ vec3(-0.5f, -0.5f, 0.5f), vec2(0.0f, 1.0f), vec4(1.0f, 1.0f, 0.0f, 1.0f) }, //Bottom Left
-		{ vec3(0.5f, -0.5f, 0.5f), vec2(1.0f, 1.0f), vec4(0.0f, 1.0f, 1.0f, 1.0f) }, //Bottom Right
-		{ vec3(0.5f, 0.5f, 0.5f), vec2(1.0f, 0.0f), vec4(1.0f, 0.0f, 1.0f, 1.0f) }, //Top Right
-
-		//Back
-		{ vec3(-0.5f, 0.5f, -0.5f), vec2(0.0f, 0.0f), vec4(1.0f, 0.0f, 1.0f, 1.0f) }, //Top Left
-		{ vec3(-0.5f, -0.5f, -0.5f), vec2(0.0f, 1.0f), vec4(1.0f, 1.0f, 0.0f, 1.0f) }, //Bottom Left
-		{ vec3(0.5f, -0.5f, -0.5f), vec2(1.0f, 1.0f), vec4(0.0f, 1.0f, 1.0f, 1.0f) }, //Bottom Right
-		{ vec3(0.5f, 0.5f, -0.5f), vec2(1.0f, 0.0f), vec4(1.0f, 0.0f, 1.0f, 1.0f) } //Top Right
-
-};
-
-GLuint indices[] = 
-{
-	//Front
-	0, 1, 2,
-	0, 3, 2,
-	//Left
-	4, 5, 1,
-	4, 1, 0,
-	//Right
-	3, 7, 2,
-	7, 6, 2,
-	//Bottom
-	1, 5, 2,
-	6, 2, 1,
-	//Top
-	5, 0, 7,
-	5, 7, 3,
-	//Back
-	4, 5, 6,
-	4, 7, 6
-};
+//Vertex triangleData[] = 
+//{
+//	//Front
+//		{ vec3(-0.5f, 0.5f, 0.5f), vec2(0.0f, 0.0f), vec4(1.0f, 0.0f, 1.0f, 1.0f) }, //Top Left
+//		{ vec3(-0.5f, -0.5f, 0.5f), vec2(0.0f, 1.0f), vec4(1.0f, 1.0f, 0.0f, 1.0f) }, //Bottom Left
+//		{ vec3(0.5f, -0.5f, 0.5f), vec2(1.0f, 1.0f), vec4(0.0f, 1.0f, 1.0f, 1.0f) }, //Bottom Right
+//		{ vec3(0.5f, 0.5f, 0.5f), vec2(1.0f, 0.0f), vec4(1.0f, 0.0f, 1.0f, 1.0f) }, //Top Right
+//
+//		//Back
+//		{ vec3(-0.5f, 0.5f, -0.5f), vec2(0.0f, 0.0f), vec4(1.0f, 0.0f, 1.0f, 1.0f) }, //Top Left
+//		{ vec3(-0.5f, -0.5f, -0.5f), vec2(0.0f, 1.0f), vec4(1.0f, 1.0f, 0.0f, 1.0f) }, //Bottom Left
+//		{ vec3(0.5f, -0.5f, -0.5f), vec2(1.0f, 1.0f), vec4(0.0f, 1.0f, 1.0f, 1.0f) }, //Bottom Right
+//		{ vec3(0.5f, 0.5f, -0.5f), vec2(1.0f, 0.0f), vec4(1.0f, 0.0f, 1.0f, 1.0f) } //Top Right
+//
+//};
+//
+//GLuint indices[] = 
+//{
+//	//Front
+//	0, 1, 2,
+//	0, 3, 2,
+//	//Left
+//	4, 5, 1,
+//	4, 1, 0,
+//	//Right
+//	3, 7, 2,
+//	7, 6, 2,
+//	//Bottom
+//	1, 5, 2,
+//	6, 2, 1,
+//	//Top
+//	5, 0, 7,
+//	5, 7, 3,
+//	//Back
+//	4, 5, 6,
+//	4, 7, 6
+//};
 
 vector<GameObject*> displayList;
 GameObject * mainCamera;
@@ -134,7 +134,7 @@ void initialise()
 	mainCamera->setCamera(c);
 	displayList.push_back(mainCamera);
 
-	GameObject *cube = new GameObject();
+	/*GameObject *cube = new GameObject();
 	cube->setName("Cube");
 
 	t = new Transform();
@@ -159,7 +159,7 @@ void initialise()
 	}
 
 	mesh->copyVertexData(8, sizeof(Vertex), (void**)(triangleData));
-	mesh->copyIndexData(36, sizeof(int), (void**)(indices));
+	mesh->copyIndexData(36, sizeof(int), (void**)(indices));*/
 
 
 }
