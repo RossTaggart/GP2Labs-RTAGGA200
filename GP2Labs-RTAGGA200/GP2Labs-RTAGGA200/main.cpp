@@ -110,7 +110,7 @@ GameObject * mainCamera;
 void InitWindow(int width, int height, bool fullscreen)
 {
 	//Create a window
-	window = SDL_CreateWindow("Lab 6",	//window title
+	window = SDL_CreateWindow("Lab 7",	//window title
 		SDL_WINDOWPOS_CENTERED,	//x position, centered
 		SDL_WINDOWPOS_CENTERED,	//y position, centered
 		width,	//width, in pixels
@@ -124,22 +124,8 @@ void initialise()
 	mainCamera = new GameObject();
 	mainCamera->setName("Camera");
 
-	string ModelPath = ASSET_PATH + MODEL_PATH + "armoredrecon.fbx";
-	GameObject* go = loadFBXFromFile(ModelPath);
-	for (int i = 0; i < go->getChildCount(); i++)
-	{
-		Material* material = new Material();
-		material->init();
-		string vsPath = ASSET_PATH + SHADER_PATH + "/simpleVS.glsl";
-		string fsPath = ASSET_PATH + SHADER_PATH + "/simpleFS.glsl";
-		material->loadShader(vsPath, fsPath);
-
-		go->getChild(i)->setMaterial(material);
-	}
-	displayList.push_back(go);
-
 	Transform *t = new Transform();
-	t->setPosition(0.0f,0.0f,10.0f);
+	t->setPosition(0.0f, 0.0f, 10.0f);
 	mainCamera->setTransform(t);
 
 	Camera *c = new Camera();
@@ -151,6 +137,21 @@ void initialise()
 	c->setFarClip(100.0f);
 	mainCamera->setCamera(c);
 	displayList.push_back(mainCamera);
+
+	string ModelPath = ASSET_PATH + MODEL_PATH + "armoredrecon.fbx";
+	GameObject* go = loadFBXFromFile(ModelPath);
+	for (int i = 0; i < go->getChildCount(); i++)
+	{
+		Material* material = new Material();
+		material->init();
+		string vsPath = ASSET_PATH + SHADER_PATH + "simpleVS.glsl";
+		string fsPath = ASSET_PATH + SHADER_PATH + "simpleFS.glsl";
+		material->loadShader(vsPath, fsPath);
+
+		go->getChild(i)->setMaterial(material);
+	}
+	displayList.push_back(go);
+
 
 	/*GameObject *cube = new GameObject();
 	cube->setName("Cube");
@@ -168,7 +169,7 @@ void initialise()
 	Mesh *mesh = new Mesh();
 	cube->setMesh(mesh);
 
-	displayList.push_back(cube);
+	displayList.push_back(cube);*/
 	
 	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
 	{
@@ -176,7 +177,7 @@ void initialise()
 
 	}
 
-	mesh->copyVertexData(8, sizeof(Vertex), (void**)(triangleData));
+	/*mesh->copyVertexData(8, sizeof(Vertex), (void**)(triangleData));
 	mesh->copyIndexData(36, sizeof(int), (void**)(indices));*/
 
 
@@ -263,33 +264,34 @@ void setViewport(int width, int height)
 //draws game object
 void renderGameObject(GameObject* pObject)
 {
-	if (!pObject)
-	{
-	
-		pObject->render();
-		Mesh * currentMesh = pObject->getMesh();
-		Transform * currentTransform = pObject->getTransform();
-		Material * currentMaterial = pObject->getMaterial();
-
-		if (currentMesh && currentTransform && currentMaterial)
-		{
-			currentMesh->Bind();
-			currentMaterial->Bind();
-
-			GLint MVPLocation = currentMaterial->getUniformLocation("MVP");
-			Camera *cam = mainCamera->getCamera();
-			mat4 MVP = cam->getProjectionMatrix()*cam->getViewMatrix()*currentTransform->getModelMatrix();
-			glUniformMatrix4fv(MVPLocation, 1, GL_FALSE, glm::value_ptr(MVP));
-
-			glDrawElements(GL_TRIANGLES, currentMesh->getIndex(), GL_UNSIGNED_INT, 0);
-		}
-
-		for (int i = 0; i < pObject->getChildCount(); i++)
-		{
-			renderGameObject(pObject->getChild(i));
-		}
-		
+	if (!pObject){
+		return;
 	}
+	
+	pObject->render();
+	Mesh * currentMesh = pObject->getMesh();
+	Transform * currentTransform = pObject->getTransform();
+	Material * currentMaterial = pObject->getMaterial();
+
+	if (currentMesh && currentTransform && currentMaterial)
+	{
+		currentMesh->Bind();
+		currentMaterial->Bind();
+
+		GLint MVPLocation = currentMaterial->getUniformLocation("MVP");
+		Camera *cam = mainCamera->getCamera();
+		mat4 MVP = cam->getProjectionMatrix()*cam->getViewMatrix()*currentTransform->getModelMatrix();
+		glUniformMatrix4fv(MVPLocation, 1, GL_FALSE, glm::value_ptr(MVP));
+
+		glDrawElements(GL_TRIANGLES, currentMesh->getIndex(), GL_UNSIGNED_INT, 0);
+	}
+
+	for (int i = 0; i < pObject->getChildCount(); i++)
+	{
+		renderGameObject(pObject->getChild(i));
+	}
+		
+	
 }
 
 //Function to draw
