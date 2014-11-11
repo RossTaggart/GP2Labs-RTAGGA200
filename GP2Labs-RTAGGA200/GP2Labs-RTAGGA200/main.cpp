@@ -11,6 +11,7 @@ using namespace std;
 #include "Transform.h"
 #include "Camera.h"
 #include "Material.h"
+#include "FBXLoader.h"
 
 //header for SDL2 functionality
 #include <gl\glew.h>
