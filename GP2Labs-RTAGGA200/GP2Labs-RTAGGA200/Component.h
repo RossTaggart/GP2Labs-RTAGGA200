@@ -2,10 +2,9 @@
 #define COMPONENT_H
 
 #include <string>
+#include "GameObject.h"
 
 using namespace std;
-
-class GameObject;
 
 class Component
 {
