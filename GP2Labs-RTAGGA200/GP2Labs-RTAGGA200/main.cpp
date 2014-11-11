@@ -1,3 +1,5 @@
+using namespace std;
+
 //Header files
 #include <iostream>
 #include <vector>
@@ -26,13 +28,14 @@ using glm::vec3;
 #include <glm/gtc/type_ptr.hpp>
 
 #ifdef _DEBUG && WIN32
-const std::string ASSET_PATH = "../assets/";
+const string ASSET_PATH = "../assets/";
 #else
-const std::string ASSET_PATH = "assets";
+const string ASSET_PATH = "assets";
 #endif
-const std::string SHADER_PATH = "shaders/";
-const std::string TEXTURE_PATH = "textures/";
-const std::string FONT_PATH = "fonts/";
+const string SHADER_PATH = "shaders/";
+const string TEXTURE_PATH = "textures/";
+const string FONT_PATH = "fonts/";
+const string MODEL_PATH = "models/";
 
 //Global variables go here
 //Pointer to our SDL Windows
