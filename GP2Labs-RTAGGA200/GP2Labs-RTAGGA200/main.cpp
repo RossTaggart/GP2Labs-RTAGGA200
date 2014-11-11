@@ -129,12 +129,11 @@ void initialise()
 	mainCamera->setTransform(t);
 
 	Camera *c = new Camera();
-	//c->setLookAt(0.0f,0.0f,0.0f);
-	//c->setUp(0.0f,1.0f,0.0f);
 	c->setFOV(45.0f);
 	c->setAspectRatio((float)WINDOW_WIDTH / WINDOW_HEIGHT);
 	c->setNearClip(0.1f);
 	c->setFarClip(100.0f);
+
 	mainCamera->setCamera(c);
 	displayList.push_back(mainCamera);
 
@@ -268,7 +267,7 @@ void renderGameObject(GameObject* pObject)
 		return;
 	}
 	
-	pObject->render();
+	
 	Mesh * currentMesh = pObject->getMesh();
 	Transform * currentTransform = pObject->getTransform();
 	Material * currentMaterial = pObject->getMaterial();
@@ -303,6 +302,7 @@ void render()
 
 	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
 	{
+		(*iter)->render();
 		renderGameObject((*iter));
 	}
 
