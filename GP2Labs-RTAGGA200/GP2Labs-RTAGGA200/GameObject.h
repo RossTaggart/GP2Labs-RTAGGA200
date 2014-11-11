@@ -26,15 +26,21 @@ class GameObject
 		const string getName();
 		void setName(const std::string& name);
 		void addComponent(Component * component);
+		void addChild(GameObject* child);
 
 		Mesh* getMesh();
-		void setMesh(Mesh * mesh);
 		Material* getMaterial();
-		void setMaterial(Material * material);
 		Camera* getCamera();
-		void setCamera(Camera * camera);
 		Transform* getTransform();
+		GameObject* getParent();
+		GameObject* getChild(int index);
+		int getChildCount();
+
+		void setMesh(Mesh * mesh);
+		void setMaterial(Material * material);
+		void setCamera(Camera * camera);
 		void setTransform(Transform * transform);
+		void setParent(GameObject* parent);
 	private:
 		string m_Name;
 		vector<Component*> m_Components;
@@ -42,6 +48,8 @@ class GameObject
 		Material* m_Material;
 		Camera* m_Camera;
 		Transform* m_Transform;
+		GameObject* m_Parent;
+		vector<GameObject*> m_Children;
 	protected:
 };
 

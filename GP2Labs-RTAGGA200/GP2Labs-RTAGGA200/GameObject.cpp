@@ -17,6 +17,7 @@ GameObject::GameObject()
 	m_Mesh = NULL;
 	m_Material = NULL;
 	m_Transform = NULL;
+	m_Parent = NULL;
 }
 
 GameObject::~GameObject()
@@ -31,6 +32,12 @@ void GameObject::init()
 		(*iter)->init();
 
 	}
+
+	for (auto iterChild = m_Children.begin(); iterChild != m_Children.end(); iterChild++)
+	{
+		(*iterChild)->init();
+
+	}
 }
 
 void GameObject::update()
@@ -39,6 +46,12 @@ void GameObject::update()
 	{
 		(*iter)->update();
 	}
+
+	for (auto iterChild = m_Children.begin(); iterChild != m_Children.end(); iterChild++)
+	{
+		(*iterChild)->update();
+
+	}
 }
 
 void GameObject::render()
@@ -46,6 +59,12 @@ void GameObject::render()
 	for (auto iter = m_Components.begin(); iter != m_Components.end(); iter++)
 	{
 		(*iter)->render();
+	}
+
+	for (auto iterChild = m_Children.begin(); iterChild != m_Children.end(); iterChild++)
+	{
+		(*iterChild)->render();
+
 	}
 }
 
@@ -64,6 +83,22 @@ void GameObject::destroy()
 		else
 		{
 			iter++;
+		}
+	}
+
+	auto iterChild = m_Children.begin();
+	while (iterChild != m_Children.end())
+	{
+		(*iterChild)->destroy();
+		if ((*iterChild))
+		{
+			delete(*iterChild);
+			(*iterChild) = NULL;
+			iterChild = m_Children.erase(iterChild);
+		}
+		else
+		{
+			iterChild++;
 		}
 	}
 }
@@ -127,4 +162,32 @@ void GameObject::setTransform(Transform* transform)
 {
 	m_Transform = transform;
 	addComponent(m_Transform);
+}
+
+GameObject* GameObject::getParent()
+{
+	return m_Parent;
+}
+
+void GameObject::setParent(GameObject* parent)
+{
+	m_Parent = parent;
+}
+
+void GameObject::addChild(GameObject* child)
+{
+	m_Children.push_back(child);
+}
+
+int GameObject::getChildCount()
+{
+	return m_Children.size();
+}
+
+GameObject* GameObject::getChild(int index)
+{
+	if (index < m_Children.size())
+	{
+		return m_Children.at(index);
+	}
 }
