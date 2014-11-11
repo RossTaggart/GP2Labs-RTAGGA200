@@ -260,22 +260,16 @@ void setViewport(int width, int height)
 	glViewport(0, 0, (GLsizei)width, (GLsizei)height);
 }
 
-
-
-//Function to draw
-void render()
+//draws game object
+void renderGameObject(GameObject* pObject)
 {
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClearDepth(1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
-	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
+	if (!pObject)
 	{
-		(*iter)->render();
-		Mesh * currentMesh = (*iter)->getMesh();
-		Transform * currentTransform = (*iter)->getTransform();
-		Material * currentMaterial = (*iter)->getMaterial();
+	
+		pObject->render();
+		Mesh * currentMesh = pObject->getMesh();
+		Transform * currentTransform = pObject->getTransform();
+		Material * currentMaterial = pObject->getMaterial();
 
 		if (currentMesh && currentTransform && currentMaterial)
 		{
@@ -290,8 +284,25 @@ void render()
 			glDrawElements(GL_TRIANGLES, currentMesh->getIndex(), GL_UNSIGNED_INT, 0);
 		}
 
+		for (int i = 0; i < pObject->getChildCount(); i++)
+		{
+			renderGameObject(pObject->getChild(i));
+		}
+		
 	}
+}
 
+//Function to draw
+void render()
+{
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearDepth(1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
+	{
+		renderGameObject((*iter));
+	}
 
 	SDL_GL_SwapWindow(window);
 }
