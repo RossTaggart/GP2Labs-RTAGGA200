@@ -88,7 +88,7 @@ vec4& Material::getDiffuseColor()
 	return m_DiffuseColor;
 }
 
-void Material::setAmbientColor(float r, float g, float b, float a)
+void Material::setDiffuseColor(float r, float g, float b, float a)
 {
 	m_DiffuseColor = vec4(r, g, b, a);
 }

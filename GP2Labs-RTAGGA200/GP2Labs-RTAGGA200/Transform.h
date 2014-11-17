@@ -18,14 +18,18 @@ class Transform :public Component
 	public:
 		Transform();
 		~Transform();
+
 		void update();
-		vec3 getPosition();
+
+		vec3& getPosition();
+		vec3& getScale();
+		vec3& getRotation();
+		mat4& getModelMatrix();
+
 		void setPosition(float x, float y, float z);
-		vec3 getScale();
 		void setScale(float x, float y, float z);
-		vec3 getRotation();
 		void setRotation(float x, float y, float z);
-		mat4 getModelMatrix();
+		
 	private:
 		vec3 m_Position;
 		vec3 m_Scale;

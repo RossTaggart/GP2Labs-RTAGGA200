@@ -16,8 +16,8 @@ class Light :public Component
 		Light();
 		~Light();
 
-		vec4 getLightDiffuse();
-		vec3 getLightDirection();
+		vec4& getLightDiffuse();
+		vec3& getLightDirection();
 
 		void setLightDiffuse(float r, float g, float b, float a);
 		void setLightDirection(float x, float y, float z);

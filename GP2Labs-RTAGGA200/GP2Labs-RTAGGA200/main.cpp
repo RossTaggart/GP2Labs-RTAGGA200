@@ -12,6 +12,7 @@ using namespace std;
 #include "Camera.h"
 #include "Material.h"
 #include "FBXLoader.h"
+#include "Light.h"
 
 //header for SDL2 functionality
 #include <gl\glew.h>
@@ -91,6 +92,7 @@ bool running = true;
 
 vector<GameObject*> displayList;
 GameObject * mainCamera;
+GameObject * mainLight;
 
 vec4 ambientLightColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
@@ -125,6 +127,17 @@ void initialise()
 	mainCamera->setCamera(c);
 	displayList.push_back(mainCamera);
 
+	mainLight = new GameObject();
+	mainLight->setName("MainLight");
+
+	t = new Transform();
+	t->setPosition(0.0f, 0.0f, 0.0f);
+	mainLight->setTransform(t);
+
+	Light *l = new Light();
+	mainLight->setLight(l);
+	displayList.push_back(mainLight);
+
 	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
 	{
 		(*iter)->init();
@@ -137,8 +150,8 @@ void initialise()
 	{
 		Material* material = new Material();
 		material->init();
-		string vsPath = ASSET_PATH + SHADER_PATH + "ambientVS.glsl";
-		string fsPath = ASSET_PATH + SHADER_PATH + "ambientFS.glsl";
+		string vsPath = ASSET_PATH + SHADER_PATH + "diffuseVS.glsl";
+		string fsPath = ASSET_PATH + SHADER_PATH + "diffuseFS.glsl";
 		material->loadShader(vsPath, fsPath);
 
 		go->getChild(i)->setMaterial(material);
@@ -267,18 +280,35 @@ void renderGameObject(GameObject* pObject)
 		currentMaterial->Bind();
 
 		GLint MVPLocation = currentMaterial->getUniformLocation("MVP");
+		GLint ModelLocation = currentMaterial->getUniformLocation("Model");
+
 		GLint ambientMaterialLocation = currentMaterial->getUniformLocation("ambientMaterialColor");
 		GLint ambientLightLocation = currentMaterial->getUniformLocation("ambientLightColor");
 
+		GLint lightDirectionLocation = currentMaterial->getUniformLocation("lightDirection");
+		GLint diffuseMatLocation = currentMaterial->getUniformLocation("diffuseMaterialColor");
+		GLint diffuseLightLocation = currentMaterial->getUniformLocation("diffuseLightColor");
+
 		Camera *cam = mainCamera->getCamera();
+		Light *light = mainLight->getLight();
 
 		mat4 MVP = cam->getProjectionMatrix()*cam->getViewMatrix()*currentTransform->getModelMatrix();
+		mat4 Model = currentTransform->getModelMatrix();
 		
 		vec4 ambientMaterialColor = currentMaterial->getAmbientColor();
+		vec4 diffuseMaterialColor = currentMaterial->getDiffuseColor();
+		vec4 diffuseLightColor = light->getLightDiffuse();
+		vec3 lightDirection = light->getLightDirection();
 
 		glUniformMatrix4fv(MVPLocation, 1, GL_FALSE, glm::value_ptr(MVP));
+		glUniformMatrix4fv(ModelLocation, 1, GL_FALSE, glm::value_ptr(Model));
+
 		glUniform4fv(ambientMaterialLocation, 1, glm::value_ptr(ambientMaterialColor));
 		glUniform4fv(ambientLightLocation, 1, glm::value_ptr(ambientLightColor));
+
+		glUniform4fv(diffuseMatLocation, 1, glm::value_ptr(diffuseMaterialColor));
+		glUniform4fv(diffuseLightLocation, 1, glm::value_ptr(diffuseLightColor));
+		glUniform3fv(lightDirectionLocation, 1, glm::value_ptr(lightDirection));
 
 		glDrawElements(GL_TRIANGLES, currentMesh->getIndex(), GL_UNSIGNED_INT, 0);
 	}

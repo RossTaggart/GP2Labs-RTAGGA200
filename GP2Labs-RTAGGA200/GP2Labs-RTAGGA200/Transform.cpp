@@ -39,7 +39,7 @@ void Transform::update()
 	
 }
 
-vec3 Transform::getPosition()
+vec3& Transform::getPosition()
 {
 	return m_Position;
 }
@@ -49,7 +49,7 @@ void Transform::setPosition(float x, float y, float z)
 	m_Position = vec3(x,y,z);
 }
 
-vec3 Transform::getScale()
+vec3& Transform::getScale()
 {
 	return m_Scale;
 }
@@ -59,7 +59,7 @@ void Transform::setScale(float x, float y, float z)
 	m_Scale = vec3(x,y,z);
 }
 
-vec3 Transform::getRotation()
+vec3& Transform::getRotation()
 {
 	return m_Rotation;
 }
@@ -70,7 +70,7 @@ void Transform::setRotation(float x, float y, float z)
 
 }
 
-mat4 Transform::getModelMatrix()
+mat4& Transform::getModelMatrix()
 {
 	return m_Model;
 }

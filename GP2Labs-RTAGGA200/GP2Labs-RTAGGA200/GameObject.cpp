@@ -204,4 +204,5 @@ Light* GameObject::getLight()
 void GameObject::setLight(Light* light)
 {
 	m_Light = light;
+	addComponent(m_Light);
 }
