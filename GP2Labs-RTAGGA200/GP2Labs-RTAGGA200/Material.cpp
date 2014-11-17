@@ -12,12 +12,13 @@
 using namespace std;
 
 using glm::mat4;
+using glm::vec4;
 
 Material::Material()
 {
 	m_ShaderProgram = -1;
 	m_Type = "Material";
-
+	m_AmbientColor = vec4(0.5f, 0.5f, 0.5f, 1.0f);
 }
 
 Material::~Material()
@@ -69,4 +70,14 @@ GLint Material::getUniformLocation(const string& name)
 	GLint MVPLocation = glGetUniformLocation(m_ShaderProgram, name.c_str());
 
 	return MVPLocation;
+}
+
+vec4& Material::getAmbientColor()
+{
+	return m_AmbientColor;
+}
+
+void Material::setAmbientColor(float r, float g, float b, float a)
+{
+	m_AmbientColor = vec4(r, g, b, a);
 }

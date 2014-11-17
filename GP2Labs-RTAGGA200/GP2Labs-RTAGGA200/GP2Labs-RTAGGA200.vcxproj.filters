@@ -50,6 +50,9 @@
     <ClCompile Include="FBXLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -82,11 +85,16 @@
     <ClInclude Include="FBXLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\assets\shaders\simpleFS.glsl" />
     <None Include="..\assets\shaders\simpleVS.glsl" />
     <None Include="..\assets\shaders\textureFS.glsl" />
     <None Include="..\assets\shaders\textureVS.glsl" />
+    <None Include="..\assets\shaders\ambientFS.glsl" />
+    <None Include="..\assets\shaders\ambientVS.glsl" />
   </ItemGroup>
 </Project>

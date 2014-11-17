@@ -11,6 +11,7 @@ class Mesh;
 class Material;
 class Camera;
 class Transform;
+class Light;
 
 class GameObject
 {
@@ -34,6 +35,7 @@ class GameObject
 		Transform* getTransform();
 		GameObject* getParent();
 		GameObject* getChild(int index);
+		Light* getLight();
 		int getChildCount();
 
 		void setMesh(Mesh * mesh);
@@ -41,6 +43,7 @@ class GameObject
 		void setCamera(Camera * camera);
 		void setTransform(Transform * transform);
 		void setParent(GameObject* parent);
+		void setLight(Light* light);
 	private:
 		string m_Name;
 		vector<Component*> m_Components;
@@ -49,6 +52,7 @@ class GameObject
 		Camera* m_Camera;
 		Transform* m_Transform;
 		GameObject* m_Parent;
+		Light* m_Light;
 		vector<GameObject*> m_Children;
 	protected:
 };

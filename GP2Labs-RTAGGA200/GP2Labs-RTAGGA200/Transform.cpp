@@ -33,7 +33,7 @@ void Transform::update()
 	
 	if (m_Parent->getParent())
 	{
-	//	m_Model = m_Parent->getParent()->getTransform()->getModelMatrix()*m_Model;
+		//m_Model = m_Parent->getParent()->getTransform()->getModelMatrix()*m_Model;
 		m_Model *= m_Parent->getTransform()->getModelMatrix();
 	}
 	
