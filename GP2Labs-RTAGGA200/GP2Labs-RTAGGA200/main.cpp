@@ -92,7 +92,7 @@ bool running = true;
 vector<GameObject*> displayList;
 GameObject * mainCamera;
 
-vec4 ambientLightColor;
+vec4 ambientLightColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
 //Global functions
 void InitWindow(int width, int height, bool fullscreen)
@@ -287,7 +287,6 @@ void renderGameObject(GameObject* pObject)
 	{
 		renderGameObject(pObject->getChild(i));
 	}
-		
 	
 }
 
