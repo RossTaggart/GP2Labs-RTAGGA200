@@ -85,6 +85,7 @@ void GameObject::destroy()
 			iter++;
 		}
 	}
+	m_Components.clear();
 
 	auto iterChild = m_Children.begin();
 	while (iterChild != m_Children.end())
@@ -101,6 +102,7 @@ void GameObject::destroy()
 			iterChild++;
 		}
 	}
+	m_Children.clear();
 }
 
 const std::string GameObject::getName()

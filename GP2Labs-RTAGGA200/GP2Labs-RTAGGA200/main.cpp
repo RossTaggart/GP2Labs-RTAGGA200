@@ -31,7 +31,7 @@ using glm::vec3;
 #ifdef _DEBUG && WIN32
 const string ASSET_PATH = "../assets/";
 #else
-const string ASSET_PATH = "assets";
+const string ASSET_PATH = "assets/";
 #endif
 const string SHADER_PATH = "shaders/";
 const string TEXTURE_PATH = "textures/";
@@ -43,21 +43,6 @@ const string MODEL_PATH = "models/";
 SDL_Window * window;
 //SDL GL Context
 SDL_GLContext glcontext = NULL;
-
-//Shader Programs
-GLuint shaderProgram2d = 0;
-GLuint shaderProgram3d = 0;
-
-//matrices
-mat4 viewMatrix;
-
-//2D matrices
-mat4 projMatrix2d;
-mat4 worldMatrix2d;
-
-//3D matrices
-mat4 projMatrix3d;
-mat4 worldMatrix3d;
 
 //Constants to control window creation
 const int WINDOW_WIDTH = 640;
@@ -137,6 +122,12 @@ void initialise()
 	mainCamera->setCamera(c);
 	displayList.push_back(mainCamera);
 
+	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
+	{
+		(*iter)->init();
+
+	}
+	
 	string ModelPath = ASSET_PATH + MODEL_PATH + "armoredrecon.fbx";
 	GameObject* go = loadFBXFromFile(ModelPath);
 	for (int i = 0; i < go->getChildCount(); i++)
@@ -169,12 +160,6 @@ void initialise()
 	cube->setMesh(mesh);
 
 	displayList.push_back(cube);*/
-	
-	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
-	{
-		(*iter)->init();
-
-	}
 
 	/*mesh->copyVertexData(8, sizeof(Vertex), (void**)(triangleData));
 	mesh->copyIndexData(36, sizeof(int), (void**)(indices));*/
@@ -267,7 +252,8 @@ void renderGameObject(GameObject* pObject)
 		return;
 	}
 	
-	
+	pObject->render();
+
 	Mesh * currentMesh = pObject->getMesh();
 	Transform * currentTransform = pObject->getTransform();
 	Material * currentMaterial = pObject->getMaterial();
