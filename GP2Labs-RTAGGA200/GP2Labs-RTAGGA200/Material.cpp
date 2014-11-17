@@ -19,6 +19,7 @@ Material::Material()
 	m_ShaderProgram = -1;
 	m_Type = "Material";
 	m_AmbientColor = vec4(0.5f, 0.5f, 0.5f, 1.0f);
+	m_DiffuseColor = vec4(0.75f, 0.75f, 0.75f, 1.0f);
 }
 
 Material::~Material()
@@ -80,4 +81,14 @@ vec4& Material::getAmbientColor()
 void Material::setAmbientColor(float r, float g, float b, float a)
 {
 	m_AmbientColor = vec4(r, g, b, a);
+}
+
+vec4& Material::getDiffuseColor()
+{
+	return m_DiffuseColor;
+}
+
+void Material::setAmbientColor(float r, float g, float b, float a)
+{
+	m_DiffuseColor = vec4(r, g, b, a);
 }

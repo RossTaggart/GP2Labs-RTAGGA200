@@ -22,11 +22,14 @@ class Material : public Component
 
 		GLint getUniformLocation(const string& name);
 		vec4& getAmbientColor();
+		vec4& getDiffuseColor();
 
 		void setAmbientColor(float r, float g, float b, float a);
+		void setDiffuseColor(float r, float g, float b, float a);
 	private:
 		GLuint m_ShaderProgram;
 		vec4 m_AmbientColor;
+		vec4 m_DiffuseColor;
 	protected:
 };
 
