@@ -1,7 +1,10 @@
 #ifndef LIGHT_H
 #define LIGHT_H
 
+using namespace std;
+
 #include <glm/glm.hpp>
+using glm::mat4;
 using glm::vec4;
 using glm::vec3;
 
@@ -9,24 +12,19 @@ using glm::vec3;
 
 class Light :public Component
 {
-public:
-	Light();
-	~Light(); 
+	public:
+		Light();
+		~Light();
 
-	vec4& getDiffuseColour();
-	void setDiffuseColour(float r, float g, float b, float a);
+		vec4& getLightDiffuse();
+		vec3& getLightDirection();
 
-	vec4& getSpecularColour();
-	void setSpecularColour(float r, float g, float b, float a);
-
-	vec3& getDirection();
-	void setDirection(float x, float y, float z);
-private:
-	vec4 m_DiffuseColour;
-	vec4 m_SpecularColour;
-
-	vec3 m_LightDirection;
-protected:
+		void setLightDiffuse(float r, float g, float b, float a);
+		void setLightDirection(float x, float y, float z);
+	private:
+		vec4 m_LightDiffuseColor;
+		vec3 m_LightDirection;
+	protected:
 };
 
 #endif

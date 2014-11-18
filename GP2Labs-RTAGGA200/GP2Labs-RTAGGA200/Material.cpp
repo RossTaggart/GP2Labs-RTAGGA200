@@ -1,106 +1,94 @@
-//
-//  Material.c
-//  GP2BaseCode
-//
-//  Created by Brian on 31/10/2014.
-//  Copyright (c) 2014 Glasgow Caledonian University. All rights reserved.
-//
-
 #include "Material.h"
+#include "Component.h"
 #include "Shader.h"
+
+#include <gl\glew.h>
+#include <SDL.h>
+#include <SDL_opengl.h>
+#include <gl\GLU.h>
+#include <SDL_ttf.h>
+#include <glm/glm.hpp>
+
+using namespace std;
+
+using glm::mat4;
+using glm::vec4;
 
 Material::Material()
 {
 	m_ShaderProgram = -1;
 	m_Type = "Material";
-	m_AmbientColour = vec4(0.5f, 0.5f, 0.5f, 1.0f);
-	m_DiffuseColour = vec4(0.75f, 0.75f, 0.75f, 1.0f);
-	m_SpecularColour = vec4(1.0f, 1.0f, 1.0f, 1.0f);
-	m_SpecularPower = 200.0f;
+	m_AmbientColor = vec4(0.5f, 0.5f, 0.5f, 1.0f);
+	m_DiffuseColor = vec4(0.75f, 0.75f, 0.75f, 1.0f);
 }
 
 Material::~Material()
 {
-    
+	destroy();
 }
 
 void Material::destroy()
 {
-    glDeleteProgram(m_ShaderProgram);
+	glDeleteProgram(m_ShaderProgram);
 }
 
-void Material::bind()
+bool Material::loadShader(const string& vertexShader, const string& fragmentShader)
 {
-    glUseProgram(m_ShaderProgram);
-}
+	GLuint vertexShaderProgram = 0;
+	std::string vsPath = vertexShader;
+	vertexShaderProgram = loadShaderFromFile(vsPath, VERTEX_SHADER);
 
-bool Material::loadShader(const std::string& vsFilename,const std::string& fsFilename)
-{
-    GLuint vertexShaderProgram=0;
-	vertexShaderProgram = loadShaderFromFile(const_cast<std::string&>(vsFilename), VERTEX_SHADER);
-    
-    GLuint fragmentShaderProgram=0;
-	fragmentShaderProgram = loadShaderFromFile(const_cast<std::string&>(fsFilename), FRAGMENT_SHADER);
-    
-    m_ShaderProgram = glCreateProgram();
+	GLuint fragmentShaderProgram = 0;
+	std::string fsPath = fragmentShader;
+	fragmentShaderProgram = loadShaderFromFile(fsPath, FRAGMENT_SHADER);
+
+	m_ShaderProgram = glCreateProgram();
+
 	glAttachShader(m_ShaderProgram, vertexShaderProgram);
 	glAttachShader(m_ShaderProgram, fragmentShaderProgram);
 	glLinkProgram(m_ShaderProgram);
 	checkForLinkErrors(m_ShaderProgram);
-    
+
 	//now we can delete the VS & FS Programs
 	glDeleteShader(vertexShaderProgram);
 	glDeleteShader(fragmentShaderProgram);
-    
-    glBindAttribLocation(m_ShaderProgram, 0, "vertexPosition");
+
+	glBindAttribLocation(m_ShaderProgram, 0, "vertexPosition");
 	glBindAttribLocation(m_ShaderProgram, 1, "vertexNormals");
-	glBindAttribLocation(m_ShaderProgram,2, "vertexTexCoords");
-	glBindAttribLocation(m_ShaderProgram, 3, "vertexColour");
+	glBindAttribLocation(m_ShaderProgram, 2, "vertexTexCoords");
+	glBindAttribLocation(m_ShaderProgram, 3, "vertexColor");
 
-    return true;
+	return true;
 }
 
-GLint Material::getUniformLocation(const std::string& name)
+void Material::Bind()
 {
-    return glGetUniformLocation(m_ShaderProgram, name.c_str());
+	glUseProgram(m_ShaderProgram);
 }
 
-vec4& Material::getAmbientColour()
+GLint Material::getUniformLocation(const string& name)
 {
-	return m_AmbientColour;
+	GLint MVPLocation = glGetUniformLocation(m_ShaderProgram, name.c_str());
+
+	return MVPLocation;
 }
 
-void Material::setAmbientColour(float r, float g, float b, float a)
+vec4& Material::getAmbientColor()
 {
-	m_AmbientColour = vec4(r, g, b, a);
+	return m_AmbientColor;
 }
 
-vec4& Material::getDiffuseColour()
+void Material::setAmbientColor(float r, float g, float b, float a)
 {
-	return m_DiffuseColour;
+	m_AmbientColor = vec4(r, g, b, a);
 }
 
-void Material::setDiffuseColour(float r, float g, float b, float a)
+vec4& Material::getDiffuseColor()
 {
-	m_DiffuseColour = vec4(r, g, b, a);
+	return m_DiffuseColor;
 }
 
-vec4& Material::getSpecularColour()
+void Material::setDiffuseColor(float r, float g, float b, float a)
 {
-	return m_SpecularColour;
-}
-
-void Material::setSpecularColour(float r, float g, float b, float a)
-{
-	m_SpecularColour = vec4(r, g, b, a);
-}
-
-float Material::getSpecularPower()
-{
-	return m_SpecularPower;
-}
-
-void Material::setSpecularPower(float power)
-{
-	m_SpecularPower = power;
+	m_DiffuseColor = vec4(r, g, b, a);
 }

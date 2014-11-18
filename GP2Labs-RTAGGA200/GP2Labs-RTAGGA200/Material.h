@@ -1,62 +1,36 @@
-//
-//  Material.h
-//  GP2BaseCode
-//
-//  Created by Brian on 31/10/2014.
-//  Copyright (c) 2014 Glasgow Caledonian University. All rights reserved.
-//
-
-#ifndef Material_h
-#define Material_h
-
-#include <GL/glew.h>
-
-#include <glm/glm.hpp>
-using glm::vec4;
+#ifndef MATERIAL_H
+#define MATERIAL_H
 
 #include <string>
 
-#ifdef __APPLE__
-#include <SDL2/SDL_opengl.h>
-#include <OpenGL/glu.h>
-#elif WIN32
-#include <SDL.h>
-#include <SDL_opengl.h>
-#include <gl/GLU.h>
-#endif
-
 #include "Component.h"
+#include <gl\glew.h>
+#include <glm/glm.hpp>
 
-class Material:public Component{
-public:
-    Material();
-    ~Material();
-    
-    void destroy();
-    
-    void bind();
-    
-    bool loadShader(const std::string& vsFilename,const std::string& fsFilename);
-    GLint getUniformLocation(const std::string& name);
-	
-	vec4& getAmbientColour();
-	void setAmbientColour(float r, float g, float b, float a);
+using glm::vec4;
 
-	vec4& getDiffuseColour();
-	void setDiffuseColour(float r, float g, float b, float a);
+using namespace std;
 
-	vec4& getSpecularColour();
-	void setSpecularColour(float r, float g, float b, float a);
+class Material : public Component
+{
+	public:
+		Material();
+		~Material();
+		void destroy();
+		bool loadShader(const string& vertexShader, const string& fragmentShader);
+		void Bind();
 
-	float getSpecularPower();
-	void setSpecularPower(float power);
-protected:
-private:
-    GLuint m_ShaderProgram;
-	vec4 m_AmbientColour;
-	vec4 m_DiffuseColour;
-	vec4 m_SpecularColour;
-	float m_SpecularPower;
+		GLint getUniformLocation(const string& name);
+		vec4& getAmbientColor();
+		vec4& getDiffuseColor();
+
+		void setAmbientColor(float r, float g, float b, float a);
+		void setDiffuseColor(float r, float g, float b, float a);
+	private:
+		GLuint m_ShaderProgram;
+		vec4 m_AmbientColor;
+		vec4 m_DiffuseColor;
+	protected:
 };
 
 #endif
