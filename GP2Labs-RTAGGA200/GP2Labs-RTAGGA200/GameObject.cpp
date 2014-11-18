@@ -1,30 +1,33 @@
+//
+//  GameObject.cpp
+//  GP2BaseCode
+//
+//  Created by Brian on 31/10/2014.
+//  Copyright (c) 2014 Glasgow Caledonian University. All rights reserved.
+//
+
 #include "GameObject.h"
 #include "Component.h"
+#include "Transform.h"
 #include "Mesh.h"
 #include "Material.h"
 #include "Camera.h"
-#include "Transform.h"
 #include "Light.h"
-
-#include <string>
-#include <vector>
-
-using namespace std;
 
 GameObject::GameObject()
 {
-	m_Name = "GameObject";
-	m_Camera = NULL;
-	m_Mesh = NULL;
-	m_Material = NULL;
-	m_Transform = NULL;
-	m_Parent = NULL;
+    m_Transform=NULL;
+    m_Mesh=NULL;
+    m_Material=NULL;
+    m_Camera=NULL;
 	m_Light = NULL;
+    m_Name="GameObject";
+	m_Parent = NULL;
 }
 
 GameObject::~GameObject()
 {
-	destroy();
+    
 }
 
 void GameObject::init()
@@ -32,14 +35,14 @@ void GameObject::init()
 	for (auto iter = m_Components.begin(); iter != m_Components.end(); iter++)
 	{
 		(*iter)->init();
-
 	}
 
-	for (auto iterChild = m_Children.begin(); iterChild != m_Children.end(); iterChild++)
+	for (auto iter = m_Children.begin(); iter != m_Children.end(); iter++)
 	{
-		(*iterChild)->init();
-
+		(*iter)->init();
 	}
+
+    
 }
 
 void GameObject::update()
@@ -49,11 +52,11 @@ void GameObject::update()
 		(*iter)->update();
 	}
 
-	for (auto iterChild = m_Children.begin(); iterChild != m_Children.end(); iterChild++)
+	for (auto iter = m_Children.begin(); iter != m_Children.end(); iter++)
 	{
-		(*iterChild)->update();
-
+		(*iter)->update();
 	}
+    
 }
 
 void GameObject::render()
@@ -63,124 +66,136 @@ void GameObject::render()
 		(*iter)->render();
 	}
 
-	for (auto iterChild = m_Children.begin(); iterChild != m_Children.end(); iterChild++)
+	for (auto iter = m_Children.begin(); iter != m_Children.end(); iter++)
 	{
-		(*iterChild)->render();
-
+		(*iter)->render();
 	}
+    
 }
 
 void GameObject::destroy()
 {
-	auto iter = m_Components.begin();
-	while (iter != m_Components.end())
-	{
-		(*iter)->destroy();
-		if ((*iter))
-		{
-			delete(*iter);
-			(*iter) = NULL;
-			iter = m_Components.erase(iter);
-		}
-		else
-		{
-			iter++;
-		}
-	}
-	m_Components.clear();
+    auto iter=m_Components.begin();
+	while(iter!=m_Components.end())
+    {
+        (*iter)->destroy();
+        if ((*iter))
+        {
+            delete (*iter);
+            (*iter)=NULL;
+            iter=m_Components.erase(iter);
+        }
+        else
+        {
+            iter++;
+        }
+    }
+    m_Components.clear();
 
-	auto iterChild = m_Children.begin();
-	while (iterChild != m_Children.end())
+	auto gameObjiter = m_Children.begin();
+	while (gameObjiter != m_Children.end())
 	{
-		(*iterChild)->destroy();
-		if ((*iterChild))
+		(*gameObjiter)->destroy();
+		if ((*gameObjiter))
 		{
-			delete(*iterChild);
-			(*iterChild) = NULL;
-			iterChild = m_Children.erase(iterChild);
+			delete (*gameObjiter);
+			(*gameObjiter) = NULL;
+			gameObjiter = m_Children.erase(gameObjiter);
 		}
 		else
 		{
-			iterChild++;
+			gameObjiter++;
 		}
 	}
 	m_Children.clear();
+    
 }
 
-const std::string GameObject::getName()
+void GameObject::addComponent(Component * component)
 {
-	return m_Name;
+    component->setParent(this);
+    m_Components.push_back(component);
 }
 
 void GameObject::setName(const std::string& name)
 {
-	m_Name = name;
+    m_Name=name;
 }
 
-void GameObject::addComponent(Component* component)
+const std::string& GameObject::getName()
 {
-	component->setParent(this);
-	m_Components.push_back(component);
+    return m_Name;
 }
 
-Mesh* GameObject::getMesh()
+void GameObject::setTransform(Transform * transform)
 {
-	return m_Mesh;
+    m_Transform=transform;
+    addComponent(transform);
 }
 
 void GameObject::setMesh(Mesh * mesh)
 {
-	m_Mesh = mesh;
-	addComponent(m_Mesh);
-	
+    m_Mesh=mesh;
+    addComponent(mesh);
 }
 
-Material* GameObject::getMaterial()
+void GameObject::setMaterial(Material * material)
 {
-	return m_Material;
+    m_Material=material;
+    addComponent(material);
 }
 
-void GameObject::setMaterial(Material* material)
+void GameObject::setCamera(Camera * camera)
 {
-	m_Material = material;
-	addComponent(m_Material);
+    m_Camera=camera;
+    addComponent(camera);
 }
 
-Camera* GameObject::getCamera()
+void GameObject::setLight(Light * light)
 {
-	return m_Camera;
+	m_Light = light;
+	addComponent(light);
 }
 
-void GameObject::setCamera(Camera* camera)
+Transform * GameObject::getTransform()
 {
-	m_Camera = camera;
-	addComponent(m_Camera);
+    return m_Transform;
 }
 
-Transform* GameObject::getTransform()
+Mesh * GameObject::getMesh()
 {
-	return m_Transform;
+    return m_Mesh;
 }
 
-void GameObject::setTransform(Transform* transform)
+Material * GameObject::getMaterial()
 {
-	m_Transform = transform;
-	addComponent(m_Transform);
+    return m_Material;
 }
 
-GameObject* GameObject::getParent()
+Camera * GameObject::getCamera()
 {
-	return m_Parent;
+    return m_Camera;
 }
 
-void GameObject::setParent(GameObject* parent)
+Light * GameObject::getLight()
+{
+	return m_Light;
+}
+
+void GameObject::addChild(GameObject * obj)
+{
+	obj->setParent(this);
+	m_Children.push_back(obj);
+}
+
+void GameObject::setParent(GameObject *parent)
 {
 	m_Parent = parent;
 }
 
-void GameObject::addChild(GameObject* child)
+GameObject *GameObject::getParent()
 {
-	m_Children.push_back(child);
+	return m_Parent;
 }
 
 int GameObject::getChildCount()
@@ -188,21 +203,10 @@ int GameObject::getChildCount()
 	return m_Children.size();
 }
 
-GameObject* GameObject::getChild(int index)
+GameObject * GameObject::getChild(int index)
 {
 	if (index < m_Children.size())
-	{
-		return m_Children.at(index);
-	}
-}
-
-Light* GameObject::getLight()
-{
-	return m_Light;
-}
-
-void GameObject::setLight(Light* light)
-{
-	m_Light = light;
-	addComponent(m_Light);
+		return m_Children[index];
+	else
+		return NULL;
 }
